@@ -3,7 +3,12 @@ import { Link } from "react-router-dom"
 
 const SignUpForm = () => {
 
-    const [fields, setFields] = useState({})
+    const [fields, setFields] = useState({
+        'username': '',
+        'email': '',
+        'password': '',
+        'passwordRepeat': ''
+    })
     const [errors, setErrors] = useState([])
 
     const handleField = (field, event) => {
@@ -15,16 +20,16 @@ const SignUpForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const password = String(fields["passwod"])
-        const passwordRepeat =  String(fields["passwordRepeat"])
-        console.log(typeof(password))
-        console.log(typeof(passwordRepeat))
-        console.log(password, passwordRepeat)
+
+        const password = fields['password']
+        const passwordRepeat = fields['passwordRepeat']
+
         if (password === passwordRepeat) {
             console.log("done")
-        } else {
-            setErrors(["Password must match Repeat Password"])
         }
+
+        console.log(password, passwordRepeat)
+ 
     }
 
     return(
