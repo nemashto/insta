@@ -22,7 +22,7 @@ const SignUpForm = () => {
         }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
 
         const username = fields['username']
@@ -31,14 +31,19 @@ const SignUpForm = () => {
         const passwordRepeat = fields['passwordRepeat']
 
         if (password === passwordRepeat) {
-            console.log("done")
-            const data = dispatch(signUp(fields))
-            // console.log(data)
-
+            const data = await dispatch(signUp(fields))
+            console.log(data)
+            if (data === 200) {
+                setErrors([])
+                console.log("registred")
+            } else if (data) {
+                setErrors(data)
+            } else {
+                setErrors(["no data"])
+            }
+        } else {
+            setErrors(["Password must match Repeat Password"])
         }
-
-        console.log(password, passwordRepeat)
- 
     }
 
     return(
