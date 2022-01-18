@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from dotenv.main import load_dotenv
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 from .config import Config
 from .database import db, User
@@ -22,16 +23,13 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 db.init_app(app)
 Migrate(app, db)
 
+# Application Security
+CORS(app)
+CSRFProtect(app)
 
 @app.after_request
 def inject_csrf_token(response):
-    response.set_cookie(
-        'csrf_token',
-        generate_csrf(),
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
-        httponly=True)
+    response.set_cookie('csrf_token', generate_csrf())
     return response
 
 

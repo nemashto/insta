@@ -1,45 +1,24 @@
+import Cookies from 'js-cookie'
 const ROOT_URL = "http://localhost:5000/api"
 
 export class HttpService {
 
-    header = {}
-
-    constructor(url_prefix = "") {
-        this.url_prefix = url_prefix
-        this.getHeaders()
-    }
-
-    getUrl(url) {
-        return this.url_prefix + url
-    }
-
-    getHeaders() {
-        this.headers = {
-            'Content-Type': 'application/json',
-        }
-    }
-
-    mapQueryParams(queryParams) {
-        return queryParams
-            ? Object.keys(queryParams).map(function (key) {
-                return key + '=' + queryParams[key]
-            }).join('&')
-            : ""
+    headers = {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': Cookies.get('csrf_token')
     }
 
     async post(url, body, queryParams = null) {
         try {
-            let response = await fetch(ROOT_URL + this.getUrl(url) + this.mapQueryParams(queryParams), {
+            let response = await fetch((ROOT_URL + '/auth/signup'), {
                 method: "POST",
                 headers: this.headers,
-                body: JSON.stringify(body)
+                body: body
             })
-
-            let jsonResponse = await response.json()
-            return jsonResponse
+            return response
         } catch (error) {
             console.log(error);
-            return null
+            return error
         }
 
     }

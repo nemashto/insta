@@ -1,9 +1,11 @@
-import { BaseService } from "./baseService";
+import { BaseService } from "./BaseService";
+import { HttpService } from "./HttpService"
 
-export class AuthService extends BaseService {
+export class AuthService {
     
-    async register(body) {
-        let response = await this.http.post("register", body)
+    async register(data) {
+        const body = JSON.stringify(data)
+        let response = await (new HttpService).post("signup", body)
         return response
     }
 

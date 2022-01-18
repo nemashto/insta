@@ -1,5 +1,7 @@
 import React, {useState}  from "react"
 import { Link } from "react-router-dom"
+import { useDispatch } from 'react-redux'
+import { signUp } from "../../store/session"
 
 const SignUpForm = () => {
 
@@ -11,6 +13,8 @@ const SignUpForm = () => {
     })
     const [errors, setErrors] = useState([])
 
+    const dispatch = useDispatch()
+
     const handleField = (field, event) => {
         setFields((prevState) => ({
             ...prevState,
@@ -21,11 +25,16 @@ const SignUpForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        const username = fields['username']
+        const email = fields['email']
         const password = fields['password']
         const passwordRepeat = fields['passwordRepeat']
 
         if (password === passwordRepeat) {
             console.log("done")
+            const data = dispatch(signUp(fields))
+            // console.log(data)
+
         }
 
         console.log(password, passwordRepeat)
