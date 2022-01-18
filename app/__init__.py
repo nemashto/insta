@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, request, make_response
 from dotenv.main import load_dotenv
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -25,11 +25,35 @@ Migrate(app, db)
 
 # Application Security
 CORS(app)
-CSRFProtect(app)
+cors = CORS(app, resource={
+    r"/*":{
+        "origins":"*"
+    }
+})
 
 @app.after_request
 def inject_csrf_token(response):
     response.set_cookie('csrf_token', generate_csrf())
     return response
+
+@app.after_request
+def after_request_func(response):
+        origin = request.headers.get('Origin')
+        if request.method == 'OPTIONS':
+            response = make_response()
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+            response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+            response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+            response.headers.add('Access-Control-Allow-Methods',
+                                'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+            if origin:
+                response.headers.add('Access-Control-Allow-Origin', origin)
+        else:
+            response.headers.add('Access-Control-Allow-Credentials', 'true')
+            if origin:
+                response.headers.add('Access-Control-Allow-Origin', origin)
+
+        response.set_cookie('csrf_token', generate_csrf())
+        return response
 
 
