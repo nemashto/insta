@@ -6,10 +6,10 @@ auth_routes = Blueprint('users', __name__)
 
 
 def validation_errors_to_error_messages(validation_errors):
-    errorMessage = []
+    errorMessage = {}
     for field in validation_errors:
         for error in validation_errors[field]:
-            errorMessage.append(f'{field} : {error}')
+            errorMessage[field] = error
     return errorMessage
 
 @auth_routes.route('/signup', methods=['POST'])

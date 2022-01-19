@@ -11,7 +11,7 @@ const SignUpForm = () => {
         'password': '',
         'passwordRepeat': ''
     })
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState({})
 
     const dispatch = useDispatch()
 
@@ -32,17 +32,16 @@ const SignUpForm = () => {
 
         if (password === passwordRepeat) {
             const data = await dispatch(signUp(fields))
-            console.log(data)
             if (data === 200) {
-                setErrors([])
+                setErrors({})
                 console.log("registred")
             } else if (data) {
                 setErrors(data)
             } else {
-                setErrors(["no data"])
+                setErrors({"global": "no data"})
             }
         } else {
-            setErrors(["Password must match Repeat Password"])
+            setErrors({"password":"Password must match Repeat Password"})
         }
     }
 
@@ -62,11 +61,11 @@ const SignUpForm = () => {
                                         <h6 className="appTagline"> ..like instagram project</h6>
 
                                         <div className="container">
-                                            {errors.map((error, index) => (
-                                                <div key={index} className="py-1 alert alert-danger">
-                                                    {error}
+                                            {errors.global &&
+                                                <div className="py-1 my-1 alert alert-danger">
+                                                    {errors.global}
                                                 </div>
-                                            ))}
+                                            }
                                         </div>
 
                                         <div className="form-group py-1">
@@ -78,6 +77,11 @@ const SignUpForm = () => {
                                                 value={fields['username']}
                                                 placeholder='Username'
                                             ></input>
+                                            {errors.username && 
+                                                <div className="py-1 my-1 alert alert-danger">
+                                                    {errors.username}
+                                                </div>    
+                                            }
                                         </div>
 
                                         <div className="form-group py-1">
@@ -89,6 +93,12 @@ const SignUpForm = () => {
                                                 value={fields['email']}
                                                 placeholder='Email'
                                             ></input>
+
+                                            {errors.email && 
+                                                <div className="py-1 my-1 alert alert-danger">
+                                                    {errors.email}
+                                                </div>    
+                                            }
                                         </div>
 
                                         <div className="form-group py-1">
@@ -111,6 +121,11 @@ const SignUpForm = () => {
                                                 value={fields['passwordRepeat']}
                                                 placeholder='password again'
                                             ></input>
+                                            {errors.password && 
+                                                <div className="py-1 my-1 alert alert-danger">
+                                                    {errors.password}
+                                                </div>    
+                                            }
                                         </div>
 
                                         <div className="form-group py-1">
