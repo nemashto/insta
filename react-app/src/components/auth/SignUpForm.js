@@ -1,6 +1,6 @@
 import React, {useState}  from "react"
-import { Link } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import { Link, Redirect } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from "../../store/session"
 
 const SignUpForm = () => {
@@ -14,6 +14,7 @@ const SignUpForm = () => {
     const [errors, setErrors] = useState({})
 
     const dispatch = useDispatch()
+    const user = useSelector(state => state.session.user)
 
     const handleField = (field, event) => {
         setFields((prevState) => ({
@@ -42,6 +43,10 @@ const SignUpForm = () => {
         } else {
             setErrors({"password":"Password must match Repeat Password"})
         }
+    }
+
+    if (user) {
+        return <Redirect to='/' />
     }
 
     return(
