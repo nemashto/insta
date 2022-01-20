@@ -1,6 +1,7 @@
 import React  from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useSelector } from 'react-redux'
+import { LoginForm } from "../auth/LoginForm";
 
 
 const SplashPage = () => {
@@ -11,20 +12,20 @@ const SplashPage = () => {
     }
 
     return (
-        <div>
-            <div className="splash-page">
+        <main>
+            <div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
                 {/* logo */}
-                <div className="login-container">
-                    login..
-                    <div className="signup-container">
-                        <p className="dontAccount">Don't have an account?</p>
-                        <Link to={'/signup'} className="register">
-                            Sign up
-                        </Link>
-                    </div>
+                <div class="col-md-5 p-lg-5 mx-auto my-5">
+                <LoginForm />
+                <div className="container">
+                    <p className="">Don't have an account?</p>
+                    <Link to={'/signup'} className="">
+                        Sign up
+                    </Link>
+                </div>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }
 

@@ -21,6 +21,7 @@ function App() {
         </Route>
         <ProtectedRoute path='/feed' exact={true} >
           <Header />
+          
           <Footer />
         </ProtectedRoute>
       </Switch>

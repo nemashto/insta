@@ -1,15 +1,11 @@
 import React, {useState, useEffect}  from "react"
-import { Link, Redirect } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { signUp } from "../../store/session"
 
-const SignUpForm = () => {
-
+export const LoginForm = () => {
     const [fields, setFields] = useState({
         'username': '',
-        'email': '',
         'password': '',
-        'passwordRepeat': ''
     })
     const [errors, setErrors] = useState({})
 
@@ -17,14 +13,11 @@ const SignUpForm = () => {
         setErrors({})
         setFields({
             'username': '',
-            'email': '',
             'password': '',
-            'passwordRepeat': ''
         })
     },[])
 
     const dispatch = useDispatch()
-    const user = useSelector(state => state.session.user)
 
     const handleField = (field, event) => {
         setFields((prevState) => ({
@@ -53,11 +46,8 @@ const SignUpForm = () => {
         }
     }
 
-    if (user) {
-        return <Redirect to='/' />
-    }
 
-    return(
+    return (
         <div>
             <div className="container">
                 <div className="row">
@@ -69,7 +59,7 @@ const SignUpForm = () => {
                                     <div className="col-3"></div>
                                     <div className="col-xs-12 col-sm-6 text-center">
 
-                                        <h1 className="appName">The insta</h1>
+                                        <h1 className="appName">The Insta</h1>
                                         <h6 className="appTagline"> ..like instagram project</h6>
 
                                         <div className="container">
@@ -99,40 +89,13 @@ const SignUpForm = () => {
                                         <div className="form-group py-1">
                                             <input
                                                 className="form-control"
-                                                type='email'
-                                                name='email'
-                                                onChange={handleField.bind(this, 'email')}
-                                                value={fields['email']}
-                                                placeholder='Email'
-                                            ></input>
-
-                                            {errors.email && 
-                                                <div className="py-1 my-1 alert alert-danger">
-                                                    {errors.email}
-                                                </div>    
-                                            }
-                                        </div>
-
-                                        <div className="form-group py-1">
-                                            <input
-                                                className="form-control"
                                                 type='password'
                                                 name='password'
                                                 onChange={handleField.bind(this, 'password')}
                                                 value={fields['password']}
                                                 placeholder='password'
                                             ></input>
-                                        </div>
-
-                                        <div className="form-group py-1">
-                                            <input
-                                                className="form-control"
-                                                type='password'
-                                                name='passwordRepeat'
-                                                onChange={handleField.bind(this, 'passwordRepeat')}
-                                                value={fields['passwordRepeat']}
-                                                placeholder='password again'
-                                            ></input>
+        
                                             {errors.password && 
                                                 <div className="py-1 my-1 alert alert-danger">
                                                     {errors.password}
@@ -141,12 +104,7 @@ const SignUpForm = () => {
                                         </div>
 
                                         <div className="form-group py-1">
-                                            <button type='submit' className="btn btn-primary btn-lg btn-block">Sign Up</button>
-                                        </div>
-
-                                        <div className="container py-1">
-                                            <p className="dontAccount">Already have an account?</p>
-                                            <Link className="register" to={"/"}>Log in</Link>
+                                            <button type='submit' className="btn btn-primary btn-lg btn-block">Login</button>
                                         </div>
                                     </div>
                                 </div>
@@ -157,5 +115,3 @@ const SignUpForm = () => {
         </div>
     )
 }
-
-export default SignUpForm

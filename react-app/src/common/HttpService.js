@@ -8,12 +8,21 @@ export class HttpService {
     }
 
     async post(url, body, queryParams = null) {
-        const response = await fetch((ROOT_URL + '/auth/signup'), {
+        const response = await fetch((ROOT_URL + '/auth/' + url), {
             method: "POST",
             credentials: "include",
             headers: this.headers,
             body: body
-        })
+        }).catch((err) => console.log(err))
+        
+        return response
+    }
+
+    async default(url, queryParams = null) {
+        const response = await fetch((ROOT_URL + '/auth/' + url), {
+            credentials: "include",
+            headers: this.headers,
+        }).catch((err) => console.log(err))
         
         return response
     }

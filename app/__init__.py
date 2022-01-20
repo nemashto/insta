@@ -4,6 +4,7 @@ from flask import Flask, request, make_response
 from dotenv.main import load_dotenv
 from flask_migrate import Migrate
 from flask_cors import CORS
+from flask_login import LoginManager
 
 from .config import Config
 from .database import db, User
@@ -22,6 +23,15 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 #init db
 db.init_app(app)
 Migrate(app, db)
+
+# Setup login manager
+login = LoginManager(app)
+login.login_view = 'auth.unauthorized'
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 # Application Security
 CORS(app)

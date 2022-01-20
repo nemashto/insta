@@ -15,6 +15,14 @@ const removeUser = () => ({
 
 const initialState = { user: null };
 
+export const logout = () => async (dispatch) => {
+  const response = await(new AuthService).logout()
+
+  if (response.ok) {
+    dispatch(removeUser());
+  }
+}
+
 export const signUp = (body) => async(dispatch) => {
     const response = await(new AuthService).register(body)
     if (response.ok){
