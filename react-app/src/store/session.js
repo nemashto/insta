@@ -17,8 +17,9 @@ const initialState = { user: null };
 
 export const signUp = (body) => async(dispatch) => {
     const response = await(new AuthService).register(body)
-    if (response.status === 200) {
-        dispatch(setUser("test"))
+    if (response.ok){
+        const data = await response.json()
+        dispatch(setUser(data))
         return 200
     } else if (response.status < 500) {
         const data = await response.json();

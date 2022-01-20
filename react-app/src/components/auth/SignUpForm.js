@@ -34,7 +34,6 @@ const SignUpForm = () => {
             const data = await dispatch(signUp(fields))
             if (data === 200) {
                 setErrors({})
-                console.log("registred")
             } else if (data) {
                 setErrors(data)
             } else {
