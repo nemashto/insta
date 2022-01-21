@@ -1,7 +1,7 @@
 from flask import Blueprint, request, make_response
 from flask_login import login_user, logout_user
 from app.forms import SignUpForm
-from app.database import User
+from app.database import User, db
 
 
 auth_routes = Blueprint('users', __name__)
@@ -36,6 +36,8 @@ def sign_up():
             email=form.data['email'],
             password=form.data['password']
         )
+        db.session.add(user)
+        db.session.commit()
         login_user(user)
         return user.to_dict()
         
