@@ -1,14 +1,19 @@
-import React, { useEffect,  useRef}  from "react";
+import React, { lazy, Suspense, useEffect,  useRef}  from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
 import SignUpForm from './components/auth/SignUpForm';
 import Footer from './components/Footer/footer';
 import SplashPage from './components/Splash/SplashPage';
-import ProtectedRoute from './components/auth/ProtectedRoute';
+import ProtectedRoute from './helpers/ProtectedRoute';
 import { Header } from './components/Header/Header';
 import { authenticate } from "./store/authSession"
 import { UsersList } from "./components/Users/UsersList";
+import ReactLoader from "./components/loader";
+
+
+const Dashboard = lazy(() => import('./pages/dashboard'));
+
 
 function App() {
   const dispatch = useDispatch()
@@ -27,26 +32,11 @@ function App() {
 
   return (
     <Router>
-      <Switch>
-        <Route path='/' exact={true} >
-          <SplashPage />
-          <Footer />
-        </Route>
-        <Route path='/signup' exact={true} >
-          <SignUpForm />
-          <Footer />
-        </Route>
-        <ProtectedRoute path='/feed' exact={true} >
-          <Header />
-          
-          <Footer />
-        </ProtectedRoute>
-        <ProtectedRoute path='/users' exact={true} >
-          <Header />
-          <UsersList />
-          <Footer />
-        </ProtectedRoute>
-      </Switch>
+      <Suspense fallback={<ReactLoader />}>
+        <Switch>
+          <Dashboard />
+        </Switch>
+      </Suspense>
     </Router>
   );
 }
