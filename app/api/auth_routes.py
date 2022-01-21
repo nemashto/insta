@@ -4,7 +4,7 @@ from app.forms import SignUpForm, LoginForm
 from app.database import User, db
 
 
-auth_routes = Blueprint('users', __name__)
+auth_routes = Blueprint('auth', __name__)
 
 
 def validation_errors_to_error_messages(validation_errors):

@@ -16,10 +16,10 @@ const removeUser = () => ({
 const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
-  const response = await(new AuthService).authenticate()
+  const response = await(new AuthService()).authenticate()
 
   if (response.ok) {
-    const data = await response.json();
+    const data = await response.json()
     if (data.errors) {
       console.log(data.errors)
       return;
@@ -30,7 +30,7 @@ export const authenticate = () => async (dispatch) => {
 }
 
 export const login = (body) => async (dispatch) => {
-  const response = await(new AuthService).login(body)
+  const response = await(new AuthService()).login(body)
 
   if (response.ok){
     const data = await response.json()
@@ -47,7 +47,7 @@ export const login = (body) => async (dispatch) => {
 }
 
 export const logout = () => async (dispatch) => {
-  const response = await(new AuthService).logout()
+  const response = await(new AuthService()).logout()
 
   if (response.ok) {
     dispatch(removeUser());
@@ -55,7 +55,7 @@ export const logout = () => async (dispatch) => {
 }
 
 export const signUp = (body) => async(dispatch) => {
-    const response = await(new AuthService).register(body)
+    const response = await(new AuthService()).register(body)
     if (response.ok){
         const data = await response.json()
         dispatch(setUser(data))
