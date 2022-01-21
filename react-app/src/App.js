@@ -1,7 +1,6 @@
-import React, { useEffect, useState,  useRef}  from "react";
-import "bootstrap/dist/css/bootstrap.min.css"
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import React, { useEffect,  useRef}  from "react";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 
 import SignUpForm from './components/auth/SignUpForm';
 import Footer from './components/Footer/footer';
@@ -12,30 +11,22 @@ import { authenticate } from "./store/authSession"
 import { UsersList } from "./components/Users/UsersList";
 
 function App() {
-  const [loaded, setLoaded] = useState(false)
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
+
 
   useEffect(() => {
       (async() => {
           await(dispatch(authenticate()))
-          setLoaded(true)
       })()
       return(
           componentMounted.current = false
       )
   }, [dispatch])
 
-  if (!loaded) {
-    return (
-      <div className="container">
-        <p>loading...</p>
-      </div>
-    )
-  }
 
   return (
-    <BrowserRouter>
+    <Router>
       <Switch>
         <Route path='/' exact={true} >
           <SplashPage />
@@ -56,7 +47,7 @@ function App() {
           <Footer />
         </ProtectedRoute>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 
