@@ -16,6 +16,7 @@ export const Header = () => {
                 <ul className="nav nav-pills">
                     <li className="nav-item"><Link to={"/"} className="nav-link active" aria-current="page">Home</Link></li>
                     <li className="nav-item"><Link to={"/"} className="nav-link"><Upload /></Link></li>
+                    <li className="nav-item"><Link to={"/users"} className="nav-link">Users</Link></li>
                     <li className="nav-item"><LogoutButton /></li>
                 </ul>
             </header>

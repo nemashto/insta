@@ -9,6 +9,7 @@ import SplashPage from './components/Splash/SplashPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Header } from './components/Header/Header';
 import { authenticate } from "./store/authSession"
+import { UsersList } from "./components/Users/UsersList";
 
 function App() {
   const [loaded, setLoaded] = useState(false)
@@ -47,6 +48,11 @@ function App() {
         <ProtectedRoute path='/feed' exact={true} >
           <Header />
           
+          <Footer />
+        </ProtectedRoute>
+        <ProtectedRoute path='/users' exact={true} >
+          <Header />
+          <UsersList />
           <Footer />
         </ProtectedRoute>
       </Switch>

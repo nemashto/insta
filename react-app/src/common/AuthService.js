@@ -1,25 +1,31 @@
-import { HttpService } from "./HttpService"
+import { BaseService } from "./BaseService"
 
-export class AuthService {
+export class AuthService extends BaseService {
+
+    constructor() {
+        super('auth')
+    }
+
     async authenticate() {
-        let response = await (new HttpService).default("")
+        let response = await this.http.get('')
         return response
     }
     
     async register(data) {
         const body = JSON.stringify(data)
-        let response = await (new HttpService).post("signup", body)
+        let response = await this.http.post("signup", body)
         return response
     }
 
     async login(data) {
         const body = JSON.stringify(data)
-        let response = await (new HttpService).post("login", body)
+        console.log("login" + body)
+        let response = await this.http.post("login", body)
         return response
     }
 
     async logout() {
-        let response = await (new HttpService).default("logout")
+        let response = await this.http.get("logout")
         return response
     }
 
