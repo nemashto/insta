@@ -19,10 +19,10 @@ const SplashPage = () => {
                 <div className="col-md-5 p-lg-5 mx-auto my-5">
                 <LoginForm />
                 <div className="container">
-                    <p className="">Don't have an account?</p>
-                    <Link to={'/signup'} className="">
-                        Sign up
-                    </Link>
+                    <p className="">
+                        Don't have an account?
+                        <Link to={'/signup'} className=""> Sign up</Link>
+                    </p>
                 </div>
                 </div>
             </div>

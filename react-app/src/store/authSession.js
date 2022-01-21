@@ -29,6 +29,23 @@ export const authenticate = () => async (dispatch) => {
   }
 }
 
+export const login = (body) => async (dispatch) => {
+  const response = await(new AuthService).login(body)
+
+  if (response.ok){
+    const data = await response.json()
+    dispatch(setUser(data))
+    return ''
+} else if (response.status < 500) {
+    const data = await response.json();
+    if (data.errors) {
+      return data.errors;
+    }
+  } else {
+    return ['An error occurred. Please try again..']
+  }
+}
+
 export const logout = () => async (dispatch) => {
   const response = await(new AuthService).logout()
 
@@ -42,7 +59,7 @@ export const signUp = (body) => async(dispatch) => {
     if (response.ok){
         const data = await response.json()
         dispatch(setUser(data))
-        return 200
+        return ''
     } else if (response.status < 500) {
         const data = await response.json();
         if (data.errors) {

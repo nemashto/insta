@@ -1,10 +1,10 @@
 import React, {useState, useEffect}  from "react"
 import { useDispatch } from 'react-redux'
-import { signUp } from "../../store/session"
+import { login } from "../../store/authSession"
 
 export const LoginForm = () => {
     const [fields, setFields] = useState({
-        'username': '',
+        'email': '',
         'password': '',
     })
     const [errors, setErrors] = useState({})
@@ -12,7 +12,7 @@ export const LoginForm = () => {
     useEffect(() => {
         setErrors({})
         setFields({
-            'username': '',
+            'email': '',
             'password': '',
         })
     },[])
@@ -29,21 +29,12 @@ export const LoginForm = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
-        const password = fields['password']
-        const passwordRepeat = fields['passwordRepeat']
-
-        if (password === passwordRepeat) {
-            const data = await dispatch(signUp(fields))
-            if (data === 200) {
-                setErrors({})
-            } else if (data) {
-                setErrors(data)
+        const response = await dispatch(login(fields))
+            if (response) {
+                setErrors(response)
             } else {
-                setErrors({"global": "no data"})
+                setErrors({})
             }
-        } else {
-            setErrors({"password":"Password must match Repeat Password"})
-        }
     }
 
 
@@ -74,14 +65,14 @@ export const LoginForm = () => {
                                             <input
                                                 className="form-control"
                                                 type='text'
-                                                name='username'
-                                                onChange={handleField.bind(this, 'username')}
-                                                value={fields['username']}
-                                                placeholder='Username'
+                                                name='email'
+                                                onChange={handleField.bind(this, 'email')}
+                                                value={fields['email']}
+                                                placeholder='Email'
                                             ></input>
                                             {errors.username && 
                                                 <div className="py-1 my-1 alert alert-danger">
-                                                    {errors.username}
+                                                    {errors.email}
                                                 </div>    
                                             }
                                         </div>

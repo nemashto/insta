@@ -12,6 +12,12 @@ export class AuthService {
         return response
     }
 
+    async login(data) {
+        const body = JSON.stringify(data)
+        let response = await (new HttpService).post("login", body)
+        return response
+    }
+
     async logout() {
         let response = await (new HttpService).default("logout")
         return response

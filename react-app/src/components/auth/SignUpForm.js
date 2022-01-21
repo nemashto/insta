@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef}  from "react"
 import { Link, Redirect } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { signUp } from "../../store/session"
+import { signUp } from "../../store/authSession"
 
 const SignUpForm = () => {
     const componentMounted = useRef(true);
@@ -44,12 +44,10 @@ const SignUpForm = () => {
 
         if (password === passwordRepeat) {
             const data = await dispatch(signUp(fields))
-            if (data === 200) {
-                setErrors({})
-            } else if (data) {
+            if (data) {
                 setErrors(data)
             } else {
-                setErrors({"global": "no data"})
+                setErrors({})
             }
         } else {
             setErrors({"password":"Password must match Repeat Password"})
@@ -148,8 +146,10 @@ const SignUpForm = () => {
                                         </div>
 
                                         <div className="container py-1">
-                                            <p className="dontAccount">Already have an account?</p>
-                                            <Link className="register" to={"/"}>Log in</Link>
+                                            <p className="">
+                                                Already have an account?
+                                                <Link className="" to={"/"}> Log in</Link>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

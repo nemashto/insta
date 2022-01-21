@@ -8,7 +8,7 @@ import Footer from './components/Footer/footer';
 import SplashPage from './components/Splash/SplashPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Header } from './components/Header/Header';
-import { authenticate } from "./store/session"
+import { authenticate } from "./store/authSession"
 
 function App() {
   const [loaded, setLoaded] = useState(false)
@@ -24,6 +24,14 @@ function App() {
           componentMounted.current = false
       )
   }, [dispatch])
+
+  if (!loaded) {
+    return (
+      <div className="container">
+        <p>loading...</p>
+      </div>
+    )
+  }
 
   return (
     <BrowserRouter>

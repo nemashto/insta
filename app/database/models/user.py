@@ -3,7 +3,6 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
@@ -11,7 +10,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    profileImage=db.Column( db.String, default='https://i.imgur.com/5t6f2uX.jpeg',nullable=False)
+    profileImage = db.Column(db.String, default='https://i.imgur.com/5t6f2uX.jpeg', nullable=False)
 
     @property
     def password(self):
@@ -21,10 +20,13 @@ class User(db.Model, UserMixin):
     def password(self, password):
         self.hashed_password = generate_password_hash(password)
 
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
     def to_dict(self):
         return {
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'profileImage':self.profileImage,
+            'profileImage': self.profileImage,
         }
