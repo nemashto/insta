@@ -1,6 +1,10 @@
 import { HttpService } from "./HttpService"
 
 export class AuthService {
+    async authenticate() {
+        let response = await (new HttpService).default("")
+        return response
+    }
     
     async register(data) {
         const body = JSON.stringify(data)
@@ -8,7 +12,7 @@ export class AuthService {
         return response
     }
 
-    async logout(data) {
+    async logout() {
         let response = await (new HttpService).default("logout")
         return response
     }

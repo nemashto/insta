@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response
-from flask_login import login_user, logout_user
+from flask_login import current_user, login_user, logout_user
 from app.forms import SignUpForm
 from app.database import User, db
 
@@ -13,6 +13,15 @@ def validation_errors_to_error_messages(validation_errors):
         for error in validation_errors[field]:
             errorMessage[field] = error
     return errorMessage
+
+@auth_routes.route('/')
+def authenticate():
+    """
+    Authenticates a user.
+    """
+    if current_user.is_authenticated:
+        return current_user.to_dict()
+    return {'errors': ['Unauthorized']}
 
 @auth_routes.route('/logout')
 def logout():

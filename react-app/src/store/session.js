@@ -15,6 +15,20 @@ const removeUser = () => ({
 
 const initialState = { user: null };
 
+export const authenticate = () => async (dispatch) => {
+  const response = await(new AuthService).authenticate()
+
+  if (response.ok) {
+    const data = await response.json();
+    if (data.errors) {
+      console.log(data.errors)
+      return;
+    }
+
+    dispatch(setUser(data));
+  }
+}
+
 export const logout = () => async (dispatch) => {
   const response = await(new AuthService).logout()
 
