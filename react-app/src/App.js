@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState,  useRef}  from "react";
 import "bootstrap/dist/css/bootstrap.min.css"
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+
 import SignUpForm from './components/auth/SignUpForm';
 import Footer from './components/Footer/footer';
 import SplashPage from './components/Splash/SplashPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { Header } from './components/Header/Header';
+import { authenticate } from "./store/session"
 
 function App() {
+  const [loaded, setLoaded] = useState(false)
+  const dispatch = useDispatch()
+  const componentMounted = useRef(true);
+
+  useEffect(() => {
+      (async() => {
+          await(dispatch(authenticate()))
+          setLoaded(true)
+      })()
+      return(
+          componentMounted.current = false
+      )
+  }, [dispatch])
+
   return (
     <BrowserRouter>
       <Switch>
