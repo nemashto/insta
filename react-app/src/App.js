@@ -1,20 +1,22 @@
-import React, { useEffect, useState,  useRef}  from "react";
-import "bootstrap/dist/css/bootstrap.min.css"
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
+import React, { lazy, useState, useEffect,  useRef}  from "react";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 
-import SignUpForm from './components/auth/SignUpForm';
-import Footer from './components/Footer/footer';
-import SplashPage from './components/Splash/SplashPage';
-import ProtectedRoute from './components/auth/ProtectedRoute';
-import { Header } from './components/Header/Header';
+import ProtectedRoute from './helpers/ProtectedRoute';
 import { authenticate } from "./store/authSession"
 import { UsersList } from "./components/Users/UsersList";
+import ReactLoader from "./components/loader";
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
+import SignUp from "./pages/signup";
+
 
 function App() {
-  const [loaded, setLoaded] = useState(false)
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
+  const [loaded, setLoaded] = useState(false)
+  const user = useSelector(state => state.session.user)
+
 
   useEffect(() => {
       (async() => {
@@ -27,36 +29,19 @@ function App() {
   }, [dispatch])
 
   if (!loaded) {
-    return (
-      <div className="container">
-        <p>loading...</p>
-      </div>
-    )
+    return (<ReactLoader />);
   }
 
   return (
-    <BrowserRouter>
+    <Router>
       <Switch>
-        <Route path='/' exact={true} >
-          <SplashPage />
-          <Footer />
-        </Route>
-        <Route path='/signup' exact={true} >
-          <SignUpForm />
-          <Footer />
-        </Route>
-        <ProtectedRoute path='/feed' exact={true} >
-          <Header />
-          
-          <Footer />
-        </ProtectedRoute>
-        <ProtectedRoute path='/users' exact={true} >
-          <Header />
-          <UsersList />
-          <Footer />
+        <Route path={'/login'} component={Login} />
+        <Route path={'/signup'} component={SignUp} />
+        <ProtectedRoute user={user} path={'/'} exact>
+          <Dashboard />
         </ProtectedRoute>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 
