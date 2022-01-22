@@ -1,41 +1,47 @@
-import React, { lazy, Suspense, useEffect,  useRef}  from "react";
+import React, { lazy, useState, useEffect,  useRef}  from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
-import SignUpForm from './components/auth/SignUpForm';
-import Footer from './components/Footer/footer';
-import SplashPage from './components/Splash/SplashPage';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import { authenticate } from "./store/authSession"
 import { UsersList } from "./components/Users/UsersList";
 import ReactLoader from "./components/loader";
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
 
 
-const Dashboard = lazy(() => import('./pages/dashboard'));
 
 
 function App() {
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
+  const [loaded, setLoaded] = useState(false)
+  const user = useSelector(state => state.session.user)
 
 
   useEffect(() => {
       (async() => {
           await(dispatch(authenticate()))
+          setLoaded(true)
       })()
       return(
           componentMounted.current = false
       )
   }, [dispatch])
 
+  if (!loaded) {
+    return (<ReactLoader />);
+  }
 
   return (
     <Router>
-      <Suspense fallback={<ReactLoader />}>
-        <Switch>
+      <Switch>
+        <Route path={'/login'} component={Login} />
+
+        <ProtectedRoute user={user} path={'/'} exact>
           <Dashboard />
-        </Switch>
-      </Suspense>
+        </ProtectedRoute>
+      </Switch>
     </Router>
   );
 }

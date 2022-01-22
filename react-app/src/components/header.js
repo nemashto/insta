@@ -1,5 +1,4 @@
 import React from "react"
-import { AppIndicator, Upload } from 'react-bootstrap-icons';
 import { Link } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import { LogoutButton } from "./auth/LogoutButton";
@@ -48,8 +47,22 @@ export const Header = () => {
                             </>
                         ):(
                             <>
-                                Login<br/>
-                                SignIn<br/>
+                                <Link to={'/'}>
+                                    <button
+                                        type="button"
+                                        className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
+                                    >
+                                        Log In
+                                    </button>
+                                </Link>
+                                <Link to={'/'}>
+                                    <button
+                                        type="button"
+                                        className="font-bold text-sm rounded text-blue-medium w-20 h-8"
+                                    >
+                                        Sign Up
+                                    </button>
+                                </Link>
                             </>
                         )}
                     </div>
