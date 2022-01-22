@@ -9,6 +9,7 @@ import ReactLoader from "./components/loader";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
+import Profile from "./pages/profile";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
       <Switch>
         <Route path={'/login'} component={Login} />
         <Route path={'/signup'} component={SignUp} />
+        <Route path={'/profile'} component={Profile} />
         <ProtectedRoute user={user} path={'/'} exact>
           <Dashboard />
         </ProtectedRoute>

@@ -40,14 +40,14 @@ export const Header = () => {
 
                                 <LogoutButton />
 
-                                <Link to={'/'} aria-label="Dashboard">
+                                <Link to={'/profile'} aria-label="Dashboard">
                                     profile
                                 </Link>
 
                             </>
                         ):(
                             <>
-                                <Link to={'/'}>
+                                <Link to={'/login'}>
                                     <button
                                         type="button"
                                         className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
@@ -55,7 +55,7 @@ export const Header = () => {
                                         Log In
                                     </button>
                                 </Link>
-                                <Link to={'/'}>
+                                <Link to={'/signup'}>
                                     <button
                                         type="button"
                                         className="font-bold text-sm rounded text-blue-medium w-20 h-8"
