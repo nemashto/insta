@@ -6,7 +6,6 @@ import SignUpForm from './components/auth/SignUpForm';
 import Footer from './components/Footer/footer';
 import SplashPage from './components/Splash/SplashPage';
 import ProtectedRoute from './helpers/ProtectedRoute';
-import { Header } from './components/Header/Header';
 import { authenticate } from "./store/authSession"
 import { UsersList } from "./components/Users/UsersList";
 import ReactLoader from "./components/loader";
