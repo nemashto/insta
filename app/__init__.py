@@ -1,3 +1,6 @@
+import imp
+
+
 import os
 
 from flask import Flask, request, make_response
@@ -7,10 +10,12 @@ from flask_cors import CORS
 from flask_login import LoginManager
 
 from .config import Config
-from .database import db, User
+from .database import db, User, Post
 from .api.auth_routes import auth_routes
 from .api.user_routes import user_routes
+from .api.post_routes import post_routes
 from flask_wtf.csrf import CSRFProtect, generate_csrf
+
 
 load_dotenv('./.env')
 
@@ -21,6 +26,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(user_routes, url_prefix='/api/users')
+app.register_blueprint(post_routes, url_prefix='/api/posts')
 
 #init db
 db.init_app(app)
@@ -35,11 +41,12 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 
+
 # Application Security
 CORS(app)
 cors = CORS(app, resource={
     r"/*":{
-        "origins":"*"
+        "origins": "*"
     }
 })
 
@@ -47,6 +54,7 @@ cors = CORS(app, resource={
 def inject_csrf_token(response):
     response.set_cookie('csrf_token', generate_csrf())
     return response
+
 
 @app.after_request
 def after_request_func(response):
