@@ -10,6 +10,7 @@ import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
 import Profile from "./pages/profile";
+import NewPost from "./pages/newPost";
 
 
 function App() {
@@ -39,8 +40,11 @@ function App() {
         <Route path={'/login'} component={Login} />
         <Route path={'/signup'} component={SignUp} />
         <Route path={'/profile'} component={Profile} />
-        <ProtectedRoute user={user} path={'/'} exact>
+        <ProtectedRoute path={'/'} exact>
           <Dashboard />
+        </ProtectedRoute>
+        <ProtectedRoute path={'/newPost'} exact>
+          <NewPost />
         </ProtectedRoute>
       </Switch>
     </Router>
