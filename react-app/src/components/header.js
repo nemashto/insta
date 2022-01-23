@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import { LogoutButton } from "./auth/LogoutButton";
+import { DEFAULT_IMAGE_PATH } from '../constants/paths'
 
 
 export const Header = () => {
@@ -57,10 +58,20 @@ export const Header = () => {
 
                                 <LogoutButton />
 
-                                <Link to={'/profile'} aria-label="Profile">
-                                    profile
-                                </Link>
-
+                                {user && (
+                                    <div className="flex items-center cursor-pointer">
+                                        <Link to={'/profile'}>
+                                            <img
+                                                className="rounded-full h-8 w-8 flex"
+                                                src={user.profileImage}
+                                                alt={`${user?.username} profile`}
+                                                onError={(e) => {
+                                                e.target.src = DEFAULT_IMAGE_PATH;
+                                                }}
+                                            />
+                                        </Link>
+                                    </div>
+                                    )}
                             </>
                         ):(
                             <>
