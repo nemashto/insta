@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import { Header } from "../components/header";
+import { useDispatch } from 'react-redux'
+import { newPost } from "../store/postSession";
 
 
 const NewPost = () => {
-
+    const dispatch = useDispatch()
     const [fields, setFields] = useState({
         'caption': '',
         'photoUrl': '',
@@ -22,6 +24,7 @@ const NewPost = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
+        const data = await dispatch(newPost(fields))
 
     }
 

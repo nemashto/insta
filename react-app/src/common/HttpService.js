@@ -16,7 +16,6 @@ export class HttpService {
     }
 
     async post(url, body, queryParams = null) {
-        console.log("http" + body)
         const response = await fetch((ROOT_URL + this.getUrl(url)), {
             method: "POST",
             credentials: "include",
