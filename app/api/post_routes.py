@@ -8,6 +8,16 @@ from datetime import datetime
 post_routes = Blueprint('posts', __name__)
 
 
+@post_routes.route('/', methods=['GET'])
+@login_required
+def get_posts():
+    """
+    Gets all posts
+    """
+    posts = Post.query.order_by(Post.created_at.desc()).all()
+    return jsonify([post.to_dict() for post in posts])
+
+
 @post_routes.route('/new', methods=['POST'])
 @login_required
 def create_post():

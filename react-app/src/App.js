@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
 import ProtectedRoute from './helpers/ProtectedRoute';
-import { authenticate } from "./store/authSession"
-import { UsersList } from "./components/Users/UsersList";
+import { authenticateAction} from './state/authSlice'
 import ReactLoader from "./components/loader";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
@@ -17,12 +16,12 @@ function App() {
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
   const [loaded, setLoaded] = useState(false)
-  const user = useSelector(state => state.session.user)
+  const user = useSelector(state => state.auth.user)
 
 
   useEffect(() => {
       (async() => {
-          await(dispatch(authenticate()))
+          await(dispatch(authenticateAction()))
           setLoaded(true)
       })()
       return(

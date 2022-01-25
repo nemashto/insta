@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef}  from "react"
 import { Link, Redirect } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
-import { signUp } from "../store/authSession"
+import { signUpAction } from '../state/authSlice'
 
 const SignUp = () => {
     const componentMounted = useRef(true);
@@ -45,7 +45,7 @@ const SignUp = () => {
         const passwordRepeat = fields['passwordRepeat']
 
         if (password === passwordRepeat) {
-            const data = await dispatch(signUp(fields))
+            const data = await dispatch(signUpAction(fields))
             if (data) {
                 setErrors(data)
             } else {
