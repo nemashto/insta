@@ -4,7 +4,7 @@ import { Header } from "../components/header"
 
 
 const Profile = () => {
-    const user = useSelector(state => state.session.user)
+    const user = useSelector(state => state.auth.user)
 
     return user?.username ? (
         <div className="bg-gray-background">

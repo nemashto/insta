@@ -1,11 +1,14 @@
 import React, {useState} from "react";
 import { Header } from "../components/header";
 import { useDispatch } from 'react-redux'
-import { newPost } from "../store/postSession";
+import { useHistory } from 'react-router-dom';
+import { newPostAction } from "../state/postSlice";
+
 
 
 const NewPost = () => {
     const dispatch = useDispatch()
+    const history = useHistory()
     const [fields, setFields] = useState({
         'caption': '',
         'photoUrl': '',
@@ -24,8 +27,17 @@ const NewPost = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
-        const data = await dispatch(newPost(fields))
-
+        const response = await dispatch(newPostAction(fields))
+        if (response.payload.errors) {
+            setErrors(response.payload.errors)
+        } else {
+            setErrors({})
+            if (isImage) {
+                history.push('/')
+            } else {
+                setErrors({'globals': 'Image url is not working'})
+            }  
+        }
     }
 
     return (

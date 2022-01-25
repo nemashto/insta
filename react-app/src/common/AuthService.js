@@ -19,7 +19,6 @@ export class AuthService extends BaseService {
 
     async login(data) {
         const body = JSON.stringify(data)
-        console.log("login" + body)
         let response = await this.http.post("login", body)
         return response
     }

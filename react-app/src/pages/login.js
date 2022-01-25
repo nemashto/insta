@@ -1,7 +1,7 @@
 import React, {useState, useEffect}  from "react"
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { login } from "../store/authSession"
+import { loginAction } from "../state/authSlice"
 
 const Login = () => {
     const history = useHistory()
@@ -34,13 +34,13 @@ const Login = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
-        const response = await dispatch(login(fields))
-            if (response) {
-                setErrors(response)
-            } else {
-                setErrors({})
-                history.push('/')
-            }
+        const response = await dispatch(loginAction(fields))
+        if (response.payload.errors) {
+            setErrors(response.payload.errors)
+        } else {
+            setErrors({})
+            history.push('/')
+        }
     }
 
 
