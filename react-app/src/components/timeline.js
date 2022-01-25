@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllPosts } from '../state/postSlice'
+import { Post } from './Post/post';
 
 
 export const Timeline = () => {
@@ -23,7 +24,7 @@ export const Timeline = () => {
             ): posts.length===0 ?(
                 <p className="flex justify-center font-bold">Follow other people to see Photos</p>
             ): posts? (
-                posts.map((content) => <p>{content.caption}</p>)
+                posts.map((content) => <Post key={content.id} content={content} />)
             ): null
             }
         </div>

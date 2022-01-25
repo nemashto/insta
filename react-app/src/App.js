@@ -1,6 +1,6 @@
-import React, { lazy, useState, useEffect,  useRef}  from "react";
+import React, { useState, useEffect,  useRef}  from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import ProtectedRoute from './helpers/ProtectedRoute';
 import { authenticateAction} from './state/authSlice'
@@ -16,8 +16,6 @@ function App() {
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
   const [loaded, setLoaded] = useState(false)
-  const user = useSelector(state => state.auth.user)
-
 
   useEffect(() => {
       (async() => {
