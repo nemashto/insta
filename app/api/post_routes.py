@@ -14,7 +14,9 @@ def get_posts():
     """
     Gets all posts
     """
-    posts = Post.query.order_by(Post.created_at.desc()).all()
+    following = []
+    following.append(current_user.id)
+    posts = Post.query.order_by(Post.created_at.desc()).filter(Post.userId.in_(following)).all()
     return jsonify([post.to_dict() for post in posts])
 
 

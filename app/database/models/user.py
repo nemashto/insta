@@ -13,6 +13,27 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     profileImage = db.Column(db.String, default='https://i.imgur.com/5t6f2uX.jpeg', nullable=False)
 
+    following = db.relationship(
+        'User', lambda: user_following,
+        primaryjoin=lambda: User.id == user_following.c.userId,
+        secondaryjoin=lambda: User.id == user_following.c.followingId,
+        backref='user',
+        cascade='all, delete'
+    )
+
+    def follow(self, user):
+        if not self.is_following(user):
+            self.following.append(user)
+            return self
+
+    def unfollow(self, user):
+        if self.is_following(user):
+            self.following.remove(user)
+            return self
+
+    def is_followinf(self, user):
+        return self.following.filter(following.c.followingId == user.id).count() > 0
+
     @property
     def password(self):
         return self.hashed_password
@@ -31,4 +52,13 @@ class User(db.Model, UserMixin):
             'fullname': self.fullname,
             'email': self.email,
             'profileImage': self.profileImage,
+            'folowing': self.following
         }
+
+
+user_following = db.Table(
+    'user_following',
+    db.Column('userId', db.Integer, db.ForeignKey(User.id), primary_key=True),
+    db.Column('followingId', db.Integer,
+              db.ForeignKey(User.id), primary_key=True),
+)
