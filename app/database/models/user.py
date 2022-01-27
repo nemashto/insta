@@ -13,26 +13,27 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     profileImage = db.Column(db.String, default='https://i.imgur.com/5t6f2uX.jpeg', nullable=False)
 
-    following = db.relationship(
+    followers = db.relationship(
         'User', lambda: user_following,
         primaryjoin=lambda: User.id == user_following.c.userId,
         secondaryjoin=lambda: User.id == user_following.c.followingId,
-        backref='user',
+        backref=db.backref('user_following', lazy='dynamic'),
+        lazy='dynamic',
         cascade='all, delete'
     )
 
     def follow(self, user):
         if not self.is_following(user):
-            self.following.append(user)
+            self.followers.append(user)
             return self
 
     def unfollow(self, user):
         if self.is_following(user):
-            self.following.remove(user)
+            self.followers.remove(user)
             return self
 
-    def is_followinf(self, user):
-        return self.following.filter(following.c.followingId == user.id).count() > 0
+    def is_following(self, user):
+        return self.followers.filter(user_following.c.followingId == user.id).count() > 0
 
     @property
     def password(self):
@@ -45,6 +46,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def get_followers(self):
+        return [user.to_dict_following() for user in self.followers]
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -52,7 +56,15 @@ class User(db.Model, UserMixin):
             'fullname': self.fullname,
             'email': self.email,
             'profileImage': self.profileImage,
-            'folowing': self.following
+            'followers': self.get_followers()
+        }
+
+    def to_dict_following(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'profileImage':self.profileImage,
         }
 
 

@@ -10,4 +10,9 @@ export class ProfileService extends BaseService {
         let response = await this.http.get('suggested')
         return response
     }
+
+    async getFollow(id) {
+        let response = await this.http.get(String(id) +'/follow')
+        return response
+    }
 }

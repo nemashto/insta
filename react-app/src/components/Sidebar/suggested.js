@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import Skeleton from 'react-loading-skeleton';
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllSuggestedProfile } from "../../state/profileSlice";
+import { SuggestedProfile } from "./suggestedProfile";
 
 
 export const Suggested = () => {
@@ -23,7 +24,12 @@ export const Suggested = () => {
             </div>
             <div className="mt-4 grid gap-5">
                 {profiles.map((profile)=>(
-                    <p>{profile.username}</p>
+                    <SuggestedProfile 
+                        key={profile.id} 
+                        id={profile.id} 
+                        username={profile.username}
+                        profileImage={profile.profileImage} 
+                    />
                 ))}
             </div>
         </div>
