@@ -56,7 +56,6 @@ class User(db.Model, UserMixin):
             'fullname': self.fullname,
             'email': self.email,
             'profileImage': self.profileImage,
-            'followers': self.get_followers()
         }
 
     def to_dict_following(self):

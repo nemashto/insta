@@ -36,7 +36,7 @@ function App() {
       <Switch>
         <Route path={'/login'} component={Login} />
         <Route path={'/signup'} component={SignUp} />
-        <Route path={'/profile'} component={Profile} />
+        <Route path={'/p/:username'} component={Profile} />
         <ProtectedRoute path={'/'} exact>
           <Dashboard />
         </ProtectedRoute>

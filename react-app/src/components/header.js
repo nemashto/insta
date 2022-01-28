@@ -60,7 +60,7 @@ export const Header = () => {
 
                                 {user && (
                                     <div className="flex items-center cursor-pointer">
-                                        <Link to={'/profile'}>
+                                        <Link to={`/p/${user.username}`}>
                                             <img
                                                 className="rounded-full h-8 w-8 flex"
                                                 src={user.profileImage}
