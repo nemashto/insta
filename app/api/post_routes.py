@@ -16,7 +16,7 @@ def get_posts():
     """
     following = []
     following.append(current_user.id)
-    following.extend([user['id'] for user in current_user.get_followers()])
+    following.extend([user['id'] for user in current_user.get_following()])
     posts = Post.query.order_by(Post.created_at.desc()).filter(Post.userId.in_(following)).all()
     return jsonify([post.to_dict() for post in posts])
 

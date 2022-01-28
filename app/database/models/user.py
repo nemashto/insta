@@ -23,17 +23,17 @@ class User(db.Model, UserMixin):
     )
 
     def follow(self, user):
-        if not self.is_following(user):
+        if not self.is_following(user.id):
             self.followers.append(user)
             return self
 
     def unfollow(self, user):
-        if self.is_following(user):
+        if self.is_following(user.id):
             self.followers.remove(user)
             return self
 
-    def is_following(self, user):
-        return self.followers.filter(user_following.c.followingId == user.id).count() > 0
+    def is_following(self, id):
+        return self.followers.filter(user_following.c.followingId == id).count() > 0
 
     @property
     def password(self):
@@ -46,7 +46,7 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def get_followers(self):
+    def get_following(self):
         return [user.to_dict_following() for user in self.followers]
 
     def to_dict(self):

@@ -24,10 +24,28 @@ export const getAllSuggestedProfile = createAsyncThunk(
     }
 )
 
+export const getFollowingService = createAsyncThunk(
+    "following/",
+    async(id) => {
+        const response = await(new ProfileService()).getFollowing(id)
+        const data = await response.json()
+        return data
+    }
+)
+
 export const followProfileService = createAsyncThunk(
     "follow/",
     async(id) => {
         const response = await(new ProfileService()).getFollow(id)
+        const data = await response.json()
+        return data
+    }
+)
+
+export const isFollowingService = createAsyncThunk(
+    "isefollow/",
+    async(id) => {
+        const response = await(new ProfileService()).isGetFollowing(id)
         const data = await response.json()
         return data
     }
