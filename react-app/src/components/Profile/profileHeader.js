@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { DEFAULT_IMAGE_PATH } from "../../constants/paths";
 import { getFollowingService, isFollowingService } from "../../state/profileSlice";
 
-export const ProfileHeader = ({ user, current }) => {
+export const ProfileHeader = ({ user, current, postsCount }) => {
   const dispatch = useDispatch()
   const [isFollowingProfile, setIsFollowingProfile] = useState(null);
   const [following, setFollowing] = useState([])
@@ -71,7 +71,7 @@ export const ProfileHeader = ({ user, current }) => {
                 ):(
                   <>
                     <p className="mr-10">
-                      X posts
+                      <span className="font-bold">{postsCount}</span>  posts
                     </p>
                     <p className="mr-10">
                       X followers
@@ -81,6 +81,9 @@ export const ProfileHeader = ({ user, current }) => {
                     </p>
                   </>
                 )}
+              </div>
+              <div className="container mt-4">
+                <p className="font-medium">{!user.fullname ? <Skeleton count={1} height={24} /> : user.fullname}</p>
               </div>
           </div>
       </div>

@@ -21,6 +21,16 @@ def get_posts():
     return jsonify([post.to_dict() for post in posts])
 
 
+@post_routes.route('/u/<int:id>', methods=['GET'])
+@login_required
+def get_user_posts(id):
+    """
+    Gets only one user posts
+    """
+    posts = Post.query.order_by(Post.created_at.desc()).filter(Post.userId == id).all()
+    return jsonify([post.to_dict() for post in posts])
+
+
 @post_routes.route('/new', methods=['POST'])
 @login_required
 def create_post():

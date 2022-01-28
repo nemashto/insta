@@ -12,6 +12,15 @@ export const getAllPosts = createAsyncThunk(
     }
 )
 
+export const getUserPostsService = createAsyncThunk(
+    "userPosts/",
+    async(id) => {
+        const response = await(new PostService()).getUserPosts(id)
+        const data = await response.json()
+        return data
+    }
+)
+
 export const newPostAction = createAsyncThunk(
     "posts/new",
     async(base) => {
