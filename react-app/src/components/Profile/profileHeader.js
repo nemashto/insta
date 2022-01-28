@@ -1,8 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Skeleton from 'react-loading-skeleton'
 import { DEFAULT_IMAGE_PATH } from "../../constants/paths";
 
 export const ProfileHeader = ({ user }) => {
+
+    useEffect(() => {
+      
+    })
+
     return(
         <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
             <div className="container flex justify-center items-center">

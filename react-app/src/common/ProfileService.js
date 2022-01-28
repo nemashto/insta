@@ -6,6 +6,11 @@ export class ProfileService extends BaseService {
         super('users')
     }
 
+    async get(username) {
+        let response = await this.http.get(String(username))
+        return response
+    }
+
     async getAll() {
         let response = await this.http.get('suggested')
         return response

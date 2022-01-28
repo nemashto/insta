@@ -1,7 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { ProfileService } from '../common/ProfileService'
 
-const initialState = { profiles: [] }
+const initialState = { 
+    profiles: [], 
+    profile: {}
+}
+
+export const getProfileService = createAsyncThunk(
+    "profile/",
+    async(username) => {
+        const response = await(new ProfileService()).get(username)
+        const data = await response.json()
+        return data
+    }
+)
 
 export const getAllSuggestedProfile = createAsyncThunk(
     "suggested/",
