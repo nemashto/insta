@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired, ValidationError
 from email_validator import validate_email, EmailNotValidError
-from app.database import User
+from backend.database import User
 
 
 def user_exists(form, field):

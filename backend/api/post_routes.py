@@ -1,5 +1,5 @@
-from app.database import db, Post
-from app.forms.post_form import PostForm
+from backend.database import db, Post
+from backend.forms.post_form import PostForm
 from flask import Blueprint, jsonify, request, Flask
 from flask_login import current_user, login_required
 from datetime import datetime

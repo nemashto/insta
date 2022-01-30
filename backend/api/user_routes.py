@@ -1,7 +1,7 @@
 from curses.ascii import US
 from flask import Blueprint
 from flask_login import login_required, current_user
-from app.database import db, User
+from backend.database import db, User
 
 user_routes = Blueprint('users', __name__)
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_user, logout_user
-from app.forms import SignUpForm, LoginForm
-from app.database import User, db
+from backend.forms import SignUpForm, LoginForm
+from backend.database import User, db
 
 
 auth_routes = Blueprint('auth', __name__)
