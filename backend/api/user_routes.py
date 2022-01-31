@@ -28,7 +28,9 @@ def getSuggestedProfiles():
 @login_required
 def getFollowingProfiles(id):
     user = User.query.get(id)
-    return {'following': user.get_following()}, 200
+    following = user.get_following()
+    followers = user.get_followers()
+    return {'following': following, 'followers': followers}, 200
 
 
 @user_routes.route('/<int:id>/follow', methods=['GET'])

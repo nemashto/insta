@@ -35,6 +35,10 @@ class User(db.Model, UserMixin):
     def is_following(self, id):
         return self.followers.filter(user_following.c.followingId == id).count() > 0
 
+    def get_followers(self):
+        followers = db.session.query(user_following).filter(user_following.c.userId == self.id).count()
+        return followers
+
     @property
     def password(self):
         return self.hashed_password

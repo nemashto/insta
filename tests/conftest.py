@@ -1,10 +1,11 @@
 import pytest
 from backend import create_app
-from backend.database import db, User
 
 
 @pytest.fixture(scope='module')
-def new_user():
-    user = User('patkennedy79@gmail.com', 'FlaskIsAwesome')
-    return user
+def test_client():
+    flask_app = create_app()
 
+    with flask_app.test_client() as test_client:
+        with flask_app.app_context():
+            yield test_client

@@ -9,6 +9,7 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
   const dispatch = useDispatch()
   const [isFollowingProfile, setIsFollowingProfile] = useState(null);
   const [following, setFollowing] = useState([])
+  const [followers, setFollowers] = useState()
 
   const handleToggleFollow = async () => { }
   
@@ -21,6 +22,7 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
     const loadFollowing = async() => {
       const loadFollowing = await(dispatch(getFollowingService(user.id)))
       setFollowing(loadFollowing.payload.following)
+      setFollowers(loadFollowing.payload.followers)
     }
 
     if (!current) {
@@ -74,7 +76,7 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
                       <span className="font-bold">{postsCount}</span>  posts
                     </p>
                     <p className="mr-10">
-                      X followers
+                      <span className="font-bold">{followers}</span> followers
                     </p>
                     <p className="mr-10">
                       <span className="font-bold">{following?.length}</span> following
