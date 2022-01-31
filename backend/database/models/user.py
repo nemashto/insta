@@ -36,7 +36,7 @@ class User(db.Model, UserMixin):
         return self.followers.filter(user_following.c.followingId == id).count() > 0
 
     def get_followers(self):
-        followers = db.session.query(user_following).filter(user_following.c.userId == self.id).count()
+        followers = db.session.query(user_following).filter(user_following.c.followingId == self.id).count()
         return followers
 
     @property
