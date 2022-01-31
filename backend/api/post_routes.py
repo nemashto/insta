@@ -1,8 +1,7 @@
-from backend.database import db, Post
+from backend.database import db, Post, User
 from backend.forms.post_form import PostForm
-from flask import Blueprint, jsonify, request, Flask
+from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
-from datetime import datetime
 
 
 post_routes = Blueprint('posts', __name__)
@@ -52,3 +51,18 @@ def create_post():
         return post.to_dict()
 
     return jsonify(form.errors), 400
+
+
+@post_routes.route('<int:post_id>/like', methods=['GET'])
+@login_required
+def update_post_like(post_id):
+    try:
+        post = Post.query.get(post_id)
+    except KeyError:
+        return {'error': 'User or Post not exist'}, 400
+    if post.is_liking(current_user.id):
+        post.unlike(current_user)
+        return {'message': 'unlike'}, 200
+    else:
+        post.like(current_user)
+        return {'message': 'like'}, 200

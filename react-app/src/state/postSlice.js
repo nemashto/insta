@@ -30,6 +30,15 @@ export const newPostAction = createAsyncThunk(
     }
 )
 
+export const likeAction = createAsyncThunk(
+    "posts/like",
+    async(id) => {
+        const response = await(new PostService()).getLike(id)
+        const data = await response.json()
+        return data
+    }
+)
+
 const postSlice = createSlice({
     name: 'posts',
     initialState,

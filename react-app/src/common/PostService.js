@@ -22,4 +22,9 @@ export class PostService extends BaseService {
         let response = await this.http.post("new", body)
         return response
     }
+
+    async getLike(id) {
+        let response = await this.http.get(String(id) + "/like")
+        return response
+    }
 }

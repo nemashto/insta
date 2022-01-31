@@ -1,6 +1,6 @@
 from ..db import db
 from .user import User
-from sqlalchemy.dialects import postgresql
+from flask_login import current_user
 
 
 class Post(db.Model):
@@ -22,14 +22,12 @@ class Post(db.Model):
     )
 
     def like(self, user):
-        if not self.is_liking(user.id):
-            self.likes.append(user)
-            return self
+        self.likes.append(user)
+        db.session.commit()
 
     def unlike(self, user):
-        if self.is_liking(user.id):
-            self.likes.remove(user)
-            return self
+        self.likes.remove(user)
+        db.session.commit()
 
     def is_liking(self, id):
         return self.likes.filter(likes_table.c.userId == id).count() > 0
@@ -45,6 +43,7 @@ class Post(db.Model):
             'photoUrl': self.photoUrl,
             'caption': self.caption,
             'likes': self.count_likes(),
+            'isLiked': self.is_liking(current_user.id),
             'created_at': self.created_at,
             'userId': self.userId,
             'username': user.username,
