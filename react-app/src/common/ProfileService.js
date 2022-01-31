@@ -22,7 +22,7 @@ export class ProfileService extends BaseService {
     }
 
     async getFollow(id) {
-        let response = await this.http.get(String(id) +'/follow')
+        let response = await this.http.get(String(id) +'/updatefollowing')
         return response
     }
 

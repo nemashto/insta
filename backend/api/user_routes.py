@@ -33,16 +33,19 @@ def getFollowingProfiles(id):
     return {'following': following, 'followers': followers}, 200
 
 
-@user_routes.route('/<int:id>/follow', methods=['GET'])
+@user_routes.route('/<int:id>/updatefollowing', methods=['GET'])
 @login_required
-def follow(id):
+def update_usere_following(id):
     try:
         user = User.query.get(id)
     except KeyError:
         return {'error': 'User id not exist'}, 400
-    current_user.follow(user)
-    db.session.commit()
-    return {'message': 'OK'}, 200
+    if current_user.is_following(id):
+        current_user.unfollow(user)
+        return {'message': 'unfollow'}, 200
+    else:
+        current_user.follow(user)
+        return {'message': 'follow'}, 200
 
 
 @user_routes.route('/<int:id>/isfollowing', methods=['GET'])

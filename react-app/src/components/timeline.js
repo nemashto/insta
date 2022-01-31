@@ -16,7 +16,6 @@ export const Timeline = () => {
         })()
     }, [dispatch])
 
-    console.log(posts)
     return (
         <div className="container col-span-2">
             {posts===undefined ?(

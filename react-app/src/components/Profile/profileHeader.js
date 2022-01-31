@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton'
 import { useDispatch } from 'react-redux'
 
 import { DEFAULT_IMAGE_PATH } from "../../constants/paths";
-import { getFollowingService, isFollowingService } from "../../state/profileSlice";
+import { followProfileService, getFollowingService, isFollowingService } from "../../state/profileSlice";
 
 export const ProfileHeader = ({ user, current, postsCount }) => {
   const dispatch = useDispatch()
@@ -11,8 +11,14 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
   const [following, setFollowing] = useState([])
   const [followers, setFollowers] = useState()
 
-  const handleToggleFollow = async () => { }
-  
+  const handleFollow = async () => { 
+    if (isFollowingProfile) {
+      setIsFollowingProfile(false)
+    } else setIsFollowingProfile(true)
+    
+    await dispatch(followProfileService(user.id))
+  }
+
   useEffect(() => {
     const isLoggedInUserFollowingProfile = async() => {
       const isFollowing = await(dispatch(isFollowingService(user.id)))
@@ -60,7 +66,7 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
                   <button
                   className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
                   type="button"
-                  onClick={handleToggleFollow}
+                  onClick={handleFollow}
                 >
                   {isFollowingProfile ? 'Unfollow' : 'Follow'}
                 </button>
