@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { followProfileService } from "../../state/profileSlice"
 
 
-export const SuggestedProfile = ({id, username, profileImage}) => {
+export const SuggestedProfile = ({id, username, profileImage, isFollower}) => {
     const dispatch = useDispatch()
     const [followed, setFollowed] = useState(false)
 
@@ -21,9 +21,14 @@ export const SuggestedProfile = ({id, username, profileImage}) => {
                     src={profileImage}
                     alt=""
                 />
-                <Link to={`/p/${username}`}>
-                    <p className="font-bold text-sm">{username}</p>
-                </Link>
+                <div>
+                    <Link to={`/p/${username}`}>
+                        <p className="font-bold text-sm">{username}</p>
+                    </Link>
+                    <div className="p-0">
+                        {isFollower && <p className="text-xs text-gray-base"> is your follower</p>}
+                    </div>
+                </div>
             </div>
             <button
                 className="text-xs font-bold text-blue-medium"

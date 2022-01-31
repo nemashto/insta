@@ -1,6 +1,7 @@
 from ..db import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import current_user
 
 
 class User(db.Model, UserMixin):
@@ -58,6 +59,7 @@ class User(db.Model, UserMixin):
             'fullname': self.fullname,
             'email': self.email,
             'profileImage': self.profileImage,
+            'isFollower': self.is_following(current_user.id)
         }
 
     def to_dict_following(self):
@@ -65,7 +67,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'profileImage':self.profileImage,
+            'profileImage': self.profileImage,
         }
 
 

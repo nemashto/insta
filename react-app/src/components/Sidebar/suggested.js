@@ -28,7 +28,8 @@ export const Suggested = () => {
                         key={profile.id} 
                         id={profile.id} 
                         username={profile.username}
-                        profileImage={profile.profileImage} 
+                        profileImage={profile.profileImage}
+                        isFollower={profile.isFollower}
                     />
                 ))}
             </div>
