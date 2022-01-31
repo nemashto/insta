@@ -42,6 +42,7 @@ def follow(id):
         return {'error': 'User id not exist'}, 400
     current_user.follow(user)
     db.session.commit()
+    return {'message': 'OK'}, 200
 
 
 @user_routes.route('/<int:id>/isfollowing', methods=['GET'])
