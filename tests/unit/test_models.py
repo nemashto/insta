@@ -9,3 +9,4 @@ def test_index_page__logged_in(client):
                 email='demo@aa.io', 
                 password='password'))
         assert res.status_code == 200
+        assert b'demo@aa.io' in res.data
