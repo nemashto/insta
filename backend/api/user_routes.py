@@ -20,7 +20,7 @@ def getSuggestedProfiles():
     following = []
     following.append(current_user.id)
     following.extend([user['id'] for user in current_user.get_following()])
-    users = User.query.filter(User.id.not_in(following)).all()
+    users = User.query.filter(User.id.not_in(following)).limit(10).all()
     return {'users': [user.to_dict() for user in users]}
 
 

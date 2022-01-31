@@ -11,7 +11,32 @@ class Post(db.Model):
     photoUrl = db.Column(db.String, nullable=False)
     caption = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    likes = db.Column('userslikes', postgresql.ARRAY(db.Integer))
+
+    likes = db.relationship(
+        'User', lambda: likes_table,
+        primaryjoin=lambda: Post.id == likes_table.c.postId,
+        secondaryjoin=lambda: User.id == likes_table.c.userId,
+        backref=db.backref('likes_table', lazy='dynamic'),
+        lazy='dynamic',
+        cascade='all, delete'
+    )
+
+    def like(self, user):
+        if not self.is_liking(user.id):
+            self.likes.append(user)
+            return self
+
+    def unlike(self, user):
+        if self.is_liking(user.id):
+            self.likes.remove(user)
+            return self
+
+    def is_liking(self, id):
+        return self.likes.filter(likes_table.c.userId == id).count() > 0
+
+    def count_likes(self):
+        count_likes = db.session.query(likes_table).filter(likes_table.c.postId == self.id).count()
+        return count_likes
 
     def to_dict(self):
         user = User.query.filter(User.id == self.userId).first()
@@ -19,9 +44,17 @@ class Post(db.Model):
             'id': self.id,
             'photoUrl': self.photoUrl,
             'caption': self.caption,
-            'likes': self.likes,
+            'likes': self.count_likes(),
             'created_at': self.created_at,
             'userId': self.userId,
             'username': user.username,
             'profileImage': user.profileImage,
         }
+
+
+likes_table = db.Table(
+    'likes_table',
+    db.Column('postId', db.Integer, db.ForeignKey(Post.id), primary_key=True),
+    db.Column('userId', db.Integer,
+              db.ForeignKey(User.id), primary_key=True),
+)
