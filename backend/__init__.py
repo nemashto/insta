@@ -3,12 +3,11 @@ from dotenv.main import load_dotenv
 from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_login import LoginManager
+from flask_wtf.csrf import generate_csrf
 
 from .config import Config
 from .database import db, User, Post
-
-from flask_wtf.csrf import generate_csrf
-
+from .seeds import seed_command
 
 load_dotenv('./.env')
 
@@ -29,6 +28,7 @@ def create_app(config_filename=None):
 def initialize_extensions(app):
     db.init_app(app)
     Migrate(app, db)
+    app.cli.add_command(seed_command)
     login = LoginManager(app)
     login.login_view = 'auth.unauthorized'
 
