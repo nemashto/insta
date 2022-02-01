@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from flask_wtf.csrf import generate_csrf
 
 from .config import Config
-from .database import db, User, Post
+from .database import db, User, Post, Comment
 from .seeds import seed_command
 
 load_dotenv('./.env')

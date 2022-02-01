@@ -10,7 +10,9 @@ class Post(db.Model):
     userId = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     photoUrl = db.Column(db.String, nullable=False)
     caption = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    posted = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    comments = db.relationship('Comment', backref='post_a_comment',cascade = "all,delete")
 
     likes = db.relationship(
         'User', lambda: likes_table,
@@ -44,10 +46,11 @@ class Post(db.Model):
             'caption': self.caption,
             'likes': self.count_likes(),
             'isLiked': self.is_liking(current_user.id),
-            'created_at': self.created_at,
+            'posted': self.posted,
             'userId': self.userId,
             'username': user.username,
             'profileImage': user.profileImage,
+            'comments': self.comments,
         }
 
 
