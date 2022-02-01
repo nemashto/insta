@@ -1,5 +1,5 @@
 from backend.database import db, Post, User
-from backend.forms.post_form import PostForm
+from backend.forms import PostForm
 from flask import Blueprint, jsonify, request
 from flask_login import current_user, login_required
 
@@ -39,7 +39,6 @@ def create_post():
     form = PostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        print(form.data)
         post = Post(
             userId=current_user.id,
             photoUrl=form.data['photoUrl'],

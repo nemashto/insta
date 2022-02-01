@@ -5,7 +5,7 @@ import { PostFooter } from "./footer";
 import { PostHeader } from "./header";
 import { Image } from "./image";
 
-export const Post = ({content}) => {
+export const Post = ({ content }) => {
     const commentInput = useRef(null);
     const handleFocus = () => commentInput.current.focus()
     return (
@@ -14,7 +14,7 @@ export const Post = ({content}) => {
             <Image src={content.photoUrl} caption={content.caption} />
             <PostActions id={content.id} isLiked={content.isLiked} likes={content.likes} handleFocus={handleFocus} />
             <PostFooter caption={content.caption} username={content.username} />
-            <Comments id={content.id} comments={null} createdAt={content.created_at} commentInput={commentInput}/>
+            <Comments id={content.id} comments={null} posted={content.posted} commentInput={commentInput}/>
         </div>
     )
 }

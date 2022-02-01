@@ -1,4 +1,3 @@
-import { string } from "prop-types"
 import { BaseService } from "./BaseService"
 
 export class PostService extends BaseService {

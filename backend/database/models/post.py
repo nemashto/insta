@@ -12,7 +12,7 @@ class Post(db.Model):
     caption = db.Column(db.String(255))
     posted = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    comments = db.relationship('Comment', backref='post_a_comment',cascade = "all,delete")
+    comments = db.relationship('Comment', backref='post_a_comment', cascade="all,delete")
 
     likes = db.relationship(
         'User', lambda: likes_table,
@@ -40,6 +40,7 @@ class Post(db.Model):
 
     def to_dict(self):
         user = User.query.filter(User.id == self.userId).first()
+        comments = [comment.to_dict() for comment in self.comments]
         return {
             'id': self.id,
             'photoUrl': self.photoUrl,
@@ -50,7 +51,7 @@ class Post(db.Model):
             'userId': self.userId,
             'username': user.username,
             'profileImage': user.profileImage,
-            'comments': self.comments,
+            'comments': comments,
         }
 
 

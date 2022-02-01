@@ -1,10 +1,57 @@
-import React from "react"
+import React, {useState} from "react"
+import { useSelector } from 'react-redux'
+import { CommentService } from "../../common/CommentService"
 
-export const AddComment = () => {
+export const AddComment = ({id, comments, setComments, commentInput}) => {
+    const [comment, setComment] = useState('')
+    
+
+    const currentUser = useSelector(state => state.auth.user)
+    const username = currentUser.username
+
+    const handleSubmitComment = async(event) => {
+        event.preventDefault()
+        const base = {
+            'body': comment,
+            'post_id': id,
+            'user_id': currentUser.id,
+        }
+
+        const response = await(new CommentService()).create(base)
+        console.log(response)
+        // setComments([...comments, { username, comment }])
+        setComment('')
+    }
 
     return (
-        <>
-            add comment
-        </>
+        <div className="border-t border-gray-primary">
+            <form
+                className="flex justify-between pl-0 pr-5"
+                method="POST"
+                onSubmit={(event) => 
+                    comment.length >= 1 ? handleSubmitComment(event): event.preventDefault()
+                }
+            >
+                <input
+                    aria-label="Add a comment"
+                    autoComplete="off"
+                    className="text-sm text-gray-base w-full mr-3 py-5 px-4"
+                    type="text"
+                    name="add-comment"
+                    placeholder="Add a comment..."
+                    value={comment}
+                    onChange={({ target }) => setComment(target.value)}
+                    ref={commentInput}
+                />
+                <button
+                    className={`text-sm font-bold text-blue-medium ${!comment && 'opacity-25'}`}
+                    type="button"
+                    disabled={comment.length < 1}
+                    onClick={handleSubmitComment}
+                >
+                    Post
+                </button>
+            </form>
+        </div>
     )
 }
