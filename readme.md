@@ -1,4 +1,6 @@
 ***Insta***
+
+
 Insta is Intagram clone made for fun and for training coding skills.
 I've been inspired in https://youtu.be/AKeaaa8yAAk and https://github.com/Andrewcodes12/TheGram
 
