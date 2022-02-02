@@ -1,15 +1,15 @@
 import React from "react"
 import { useDispatch } from 'react-redux'
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { logoutAction } from '../../state/authSlice'
 
 export const LogoutButton = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const handleOnClick = async() => {
         await dispatch(logoutAction())
-        history.push('/')
+        navigate('/')
     }
 
     return (
