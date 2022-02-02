@@ -19,7 +19,10 @@ export const AddComment = ({id, comments, setComments, commentInput}) => {
 
         const response = await(new CommentService()).create(base)
         console.log(response)
-        // setComments([...comments, { username, comment }])
+        setComments([...comments, {
+             'userName': username, 
+             'body': comment 
+            }])
         setComment('')
     }
 

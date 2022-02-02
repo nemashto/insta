@@ -18,19 +18,16 @@ class Comment(db.Model):
         time_text = ''
         if (time_diff.days):
             time_diff = time_diff.days
-            time_text = (str(round(time_diff, 1)) + ' days ago')
+            time_text = (str(round(time_diff)) + ' days ago')
         elif ((time_diff.seconds / 60)/60 >= 1):
             time_diff = (time_diff.seconds / 60)/60
-            time_text = (str(round(time_diff, 1)) + ' hours ago')
+            time_text = (str(round(time_diff)) + ' hours ago')
         elif ((time_diff.seconds / 60) >= 1):
             time_diff = (time_diff.seconds / 60)
-            time_text = (str(round(time_diff, 1)) + ' minutes ago')
+            time_text = (str(round(time_diff)) + ' minutes ago')
         else:
             time_diff = time_diff.seconds
-            time_text = (str(round(time_diff, 1)) + ' seconds ago')
-
-        print(time_diff)
-        print(time_text)
+            time_text = (str(round(time_diff)) + ' seconds ago')
 
         return {
             'id': self.id,

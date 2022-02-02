@@ -14,7 +14,7 @@ export const Post = ({ content }) => {
             <Image src={content.photoUrl} caption={content.caption} />
             <PostActions id={content.id} isLiked={content.isLiked} likes={content.likes} handleFocus={handleFocus} />
             <PostFooter caption={content.caption} username={content.username} />
-            <Comments id={content.id} comments={null} posted={content.posted} commentInput={commentInput}/>
+            <Comments id={content.id} comments={content.comments} posted={content.posted} commentInput={commentInput}/>
         </div>
     )
 }
