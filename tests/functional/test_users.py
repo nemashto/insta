@@ -1,5 +1,6 @@
 from backend.database import User
 
+
 def test_new_user():
     user = User(
         username='tester',

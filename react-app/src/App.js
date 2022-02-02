@@ -10,7 +10,6 @@ import Profile from "./pages/profile";
 import NewPost from "./pages/newPost";
 
 
-
 function App() {
   const dispatch = useDispatch()
   const componentMounted = useRef(true);
