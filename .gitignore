@@ -383,6 +383,9 @@ dist
 
 node_modules
 
+# image storage
+react-app/public/images
+
 *.sublime*
 
 psd
