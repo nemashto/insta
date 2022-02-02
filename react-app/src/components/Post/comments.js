@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
 import { AddComment } from "./addComment";
 
-export const Comments = ({id, comments: allComments, posted, commentImput}) => {
+export const Comments = ({id, comments: allComments, posted, commentInput}) => {
     const [comments, setComments] = useState(allComments)
     const [commentsSlice, setCommentsSlice] = useState(2)
 
@@ -40,7 +40,7 @@ export const Comments = ({id, comments: allComments, posted, commentImput}) => {
                     {formatDistance(posted, new Date())} ago
                 </p>)}
             </div>
-            <AddComment id={id} comments={comments} setComments={setComments} commentInput={commentImput} />
+            <AddComment id={id} comments={comments} setComments={setComments} commentInput={commentInput} />
         </>
     )
 }
