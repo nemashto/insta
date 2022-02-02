@@ -1,10 +1,10 @@
 import React, {useState, useEffect}  from "react"
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { loginAction } from "../state/authSlice"
 
 const Login = () => {
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const [fields, setFields] = useState({
         'email': '',
@@ -39,7 +39,7 @@ const Login = () => {
             setErrors(response.payload.errors)
         } else {
             setErrors({})
-            history.push('/')
+            navigate('/')
         }
     }
 

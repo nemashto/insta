@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef}  from "react"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Route, Navigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { signUpAction } from '../state/authSlice'
 
@@ -57,7 +57,7 @@ const SignUp = () => {
     }
 
     if (user) {
-        return <Redirect to='/' />
+        <Route path="*" element={<Navigate replace to="/" />} />
     }
 
     return(

@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import { Header } from "../components/header";
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { newPostAction } from "../state/postSlice";
 
 
 
 const NewPost = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const navigate = useNavigate()
     const [fields, setFields] = useState({
         'caption': '',
         'photoUrl': '',
@@ -33,7 +33,7 @@ const NewPost = () => {
         } else {
             setErrors({})
             if (isImage) {
-                history.push('/')
+                navigate('/')
             } else {
                 setErrors({'globals': 'Image url is not working'})
             }  
