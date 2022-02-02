@@ -76,6 +76,7 @@ db.sqlite3-journal
 instance/
 backend/seeds/
 seeds/
+migrations/
 
 # Scrapy stuff:
 .scrapy
