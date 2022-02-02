@@ -1,6 +1,7 @@
 from ..db import db
 from .user import User
 from flask_login import current_user
+from datetime import datetime
 
 
 class Post(db.Model):

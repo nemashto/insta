@@ -37,7 +37,7 @@ export const Comments = ({id, comments: allComments, posted, commentInput}) => {
                   </button>
                 )}
                 { posted && (<p className="text-gray-base uppercase text-xs mt-2">
-                    {formatDistance(posted, new Date())} ago
+                    {formatDistance(new Date(posted), new Date())} ago
                 </p>)}
             </div>
             <AddComment id={id} comments={comments} setComments={setComments} commentInput={commentInput} />

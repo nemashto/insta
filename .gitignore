@@ -74,6 +74,8 @@ db.sqlite3-journal
 
 # Flask stuff:
 instance/
+backend/seeds/
+seeds/
 
 # Scrapy stuff:
 .scrapy
