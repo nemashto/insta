@@ -14,20 +14,6 @@ class Comment(db.Model):
 
     def to_dict(self):
         user = User.query.get(self.user_id)
-        time_diff = (datetime.now() - self.posted)
-        time_text = ''
-        if (time_diff.days):
-            time_diff = time_diff.days
-            time_text = (str(round(time_diff)) + ' days ago')
-        elif ((time_diff.seconds / 60)/60 >= 1):
-            time_diff = (time_diff.seconds / 60)/60
-            time_text = (str(round(time_diff)) + ' hours ago')
-        elif ((time_diff.seconds / 60) >= 1):
-            time_diff = (time_diff.seconds / 60)
-            time_text = (str(round(time_diff)) + ' minutes ago')
-        else:
-            time_diff = time_diff.seconds
-            time_text = (str(round(time_diff)) + ' seconds ago')
 
         return {
             'id': self.id,
@@ -35,5 +21,5 @@ class Comment(db.Model):
             'postId': self.post_id,
             'userName': user.username,
             'profileImg': user.profileImage,
-            'posted': time_text,
+            'posted': self.posted,
         }

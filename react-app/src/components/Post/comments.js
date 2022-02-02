@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import { formatDistance } from 'date-fns';
 import { AddComment } from "./addComment";
 
 export const Comments = ({id, comments: allComments, posted, commentImput}) => {
@@ -35,6 +36,9 @@ export const Comments = ({id, comments: allComments, posted, commentImput}) => {
                     View more comments
                   </button>
                 )}
+                { posted && (<p className="text-gray-base uppercase text-xs mt-2">
+                    {formatDistance(posted, new Date())} ago
+                </p>)}
             </div>
             <AddComment id={id} comments={comments} setComments={setComments} commentInput={commentImput} />
         </>
