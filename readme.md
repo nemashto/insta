@@ -19,12 +19,12 @@ Back-End:
 * * SQLAlchemy
 Python
 
-** Features: **
+** Features:**
 * CRUD api
 * Authentification via cookie based session
 * authentification method via csrf cookie
 * Cross-Site Request Forgery Prevention
 * Backend tested via Pytest's unit and functional tests
 
-** Features to be implemented: **
+** Features to be implemented:**
 * upload and storage images
