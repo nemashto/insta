@@ -1,10 +1,10 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react'
 import { Suggested } from './suggested'
 import { SidebarUser } from './user'
+import { UserContext } from '../../context/user'
 
 export const Sidebar = () => {
-    const user = useSelector(state => state.auth.user)
+    const { user } = useContext(UserContext)
 
     return(
         <div className="p-4">
