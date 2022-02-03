@@ -4,14 +4,7 @@ import { AuthService } from "../common/AuthService"
 const initialState = { user: null }
 
 
-export const authenticateAction = createAsyncThunk(
-    "auth/authenticate",
-    async() => {
-        const response = await(new AuthService()).authenticate()
-        const data = await response.json()
-        return data
-    }
-)
+
 
 export const loginAction = createAsyncThunk(
     "auth/login",
@@ -47,12 +40,6 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(authenticateAction.fulfilled, (state, action) => {
-                state.user = action.payload
-            })
-            .addCase(authenticateAction.rejected, (state) => {
-                state.user = null
-            })
             .addCase(loginAction.fulfilled, (state, action) => {
                 if (action.payload.errors) {
                     state.user = null

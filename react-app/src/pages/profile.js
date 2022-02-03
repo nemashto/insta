@@ -1,4 +1,4 @@
-import React, {useState, useEffect}  from "react"
+import React, {useState, useEffect, useContext}  from "react"
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'
 import { Header } from "../components/header"
@@ -6,13 +6,14 @@ import { UserProfile } from "../components/Profile/userProfile"
 import { getProfileService } from "../state/profileSlice";
 import { getUserPostsService } from "../state/postSlice";
 import { ProfilePosts } from "../components/Profile/profilePosts";
+import { UserContext } from "../context/user";
 
 
 const Profile = () => {
     const dispatch = useDispatch()
     const { username } = useParams();
-    const currentUser = useSelector(state => state.auth.user)
-    const [user, setUser] = useState(null)
+    const { user } = useContext(UserContext)
+    const [profileUser, setProfileUser] = useState(null)
     const [posts, setPosts] = useState([])
     const [current, setCurrent] = useState(false)
     
@@ -21,7 +22,7 @@ const Profile = () => {
             const loadedUser = await(dispatch(getProfileService(username)))
             setCurrent(false)
             const data = await loadedUser.payload
-            setUser(data)
+            setProfileUser(data)
             loadPosts(data.id)
         }
 
@@ -30,23 +31,23 @@ const Profile = () => {
             setPosts(loadedPosts.payload)
         }
 
-        if (username === currentUser.username) {
-            setUser(currentUser)
+        if (user && username === user.username) {
+            setProfileUser(user)
             setCurrent(true)
-            loadPosts(currentUser.id)
+            loadPosts(user.id)
         } else {
             loadUser()           
         }
 
 
-    }, [setUser, username, currentUser, dispatch])
+    }, [setProfileUser, username, user, dispatch])
 
 
-    return user?.username ? (
+    return profileUser?.username ? (
         <div className="bg-gray-background">
             <Header />
             <div className="mx-auto max-w-screen-lg">
-                <UserProfile user={user} current={current} postsCount={posts.length}/>
+                <UserProfile user={profileUser} current={current} postsCount={posts.length}/>
                 <ProfilePosts posts={posts} />
             </div>
         </div>
