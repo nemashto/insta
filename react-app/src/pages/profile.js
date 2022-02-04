@@ -1,18 +1,18 @@
-import React, {useState, useEffect, useContext}  from "react"
+import React, {useState, useEffect}  from "react"
 import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Header } from "../components/header"
 import { UserProfile } from "../components/Profile/userProfile"
 import { getProfileService } from "../state/profileSlice";
 import { getUserPostsService } from "../state/postSlice";
 import { ProfilePosts } from "../components/Profile/profilePosts";
-import { UserContext } from "../context/user";
+import { useUserContext } from "../hooks/userContext";
 
 
 const Profile = () => {
     const dispatch = useDispatch()
     const { username } = useParams();
-    const { user } = useContext(UserContext)
+    const { user } = useUserContext()
     const [profileUser, setProfileUser] = useState(null)
     const [posts, setPosts] = useState([])
     const [current, setCurrent] = useState(false)

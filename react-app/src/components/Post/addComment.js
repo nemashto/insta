@@ -1,11 +1,10 @@
-import React, {useState, useContext} from "react"
-import { UserContext } from "../../context/user"
+import React, {useState} from "react"
 import { CommentService } from "../../common/CommentService"
+import { useUserContext } from "../../hooks/userContext"
 
 export const AddComment = ({id, comments, setComments, commentInput}) => {
     const [comment, setComment] = useState('')
-    const { user } = useContext(UserContext)
-    const username = user.username
+    const { user } = useUserContext()
 
     const handleSubmitComment = async(event) => {
         event.preventDefault()
@@ -18,7 +17,7 @@ export const AddComment = ({id, comments, setComments, commentInput}) => {
         const response = await(new CommentService()).create(base)
         console.log(response)
         setComments([...comments, {
-             'userName': username, 
+             'userName': user.username, 
              'body': comment 
             }])
         setComment('')

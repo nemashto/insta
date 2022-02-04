@@ -1,5 +1,9 @@
 import { Navigate } from "react-router-dom";
+import { useUserContext } from "../hooks/userContext";
 
-export const RequireAuth = ({ children, redirectTo, user }) => {
-    return user ? children : <Navigate replace to={redirectTo}/>;
-  }
+export const RequireAuth = ({ children, redirectTo }) => {
+
+  const { user, loaded } = useUserContext()
+
+  return !loaded && (user ? children : <Navigate replace to={redirectTo}/>);
+}

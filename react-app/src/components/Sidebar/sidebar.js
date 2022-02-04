@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Suggested } from './suggested'
 import { SidebarUser } from './user'
-import { UserContext } from '../../context/user'
+import { useUserContext } from '../../hooks/userContext'
 
 export const Sidebar = () => {
-    const { user } = useContext(UserContext)
+    const { user } = useUserContext()
 
     return(
-        <div className="p-4">
+        user && (<div className="p-4">
             <SidebarUser username={user.username} fullname={user.fullname} profileImg={user.profileImage}/>
             <Suggested />
-        </div>
+        </div>)
     )
 }

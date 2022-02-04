@@ -1,27 +1,28 @@
 import React from "react";
-
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useAuthListener } from './hooks/auth';
-import { UserContext } from "./context/user";
-import { RequireAuth } from "./helper/requireAuth";
+import { UserContextProvider } from "./context/userContext";
 import ReactLoader from "./components/loader";
+import { RequireAuth} from './helper/requireAuth'
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import SignUp from "./pages/signup";
 import Profile from "./pages/profile";
 import NewPost from "./pages/newPost";
+import { useUserContext } from "./hooks/userContext";
 
 
 function App() {
-  const {user, loader} = useAuthListener()
 
-  if (loader) {
-    return(
+  const loaded = useUserContext()
+  console.log(loaded)
+  if (loaded) {
+    return (
       <ReactLoader />
     )
   }
+
   return (
-    <UserContext.Provider value={{user}} >
+    <UserContextProvider>
       <Router>
         <Routes>
           <Route path={'/login'} element={<Login />} />
@@ -31,7 +32,7 @@ function App() {
             path={'/'}
             exact
             element={
-              <RequireAuth redirectTo={'/login'} user={user}>
+              <RequireAuth redirectTo={'/login'}>
                 <Dashboard />
               </RequireAuth>
             }
@@ -40,14 +41,14 @@ function App() {
             path={'/newPost'} 
             exact 
             element={
-              <RequireAuth redirectTo={'/login'} user={user}>
+              <RequireAuth redirectTo={'/login'}>
                 <NewPost />
               </RequireAuth>
             }
           />
         </Routes>
       </Router>
-    </UserContext.Provider>
+    </UserContextProvider>
   );
 }
 
