@@ -14,7 +14,6 @@ import { useUserContext } from "./hooks/userContext";
 function App() {
 
   const loaded = useUserContext()
-  console.log(loaded)
   if (loaded) {
     return (
       <ReactLoader />
