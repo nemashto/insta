@@ -1,15 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Suggested } from './suggested'
 import { SidebarUser } from './user'
+import { useUserContext } from '../../hooks/userContext'
 
 export const Sidebar = () => {
-    const user = useSelector(state => state.auth.user)
+    const { user } = useUserContext()
 
     return(
-        <div className="p-4">
+        user && (<div className="p-4">
             <SidebarUser username={user.username} fullname={user.fullname} profileImg={user.profileImage}/>
             <Suggested />
-        </div>
+        </div>)
     )
 }

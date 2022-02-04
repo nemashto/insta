@@ -3,14 +3,6 @@ import { PostService } from "../common/PostService"
 
 const initialState = { posts: [] }
 
-export const getAllPosts = createAsyncThunk(
-    "posts/",
-    async() => {
-        const response = await(new PostService()).getAll()
-        const data = await response.json()
-        return data
-    }
-)
 
 export const getUserPostsService = createAsyncThunk(
     "userPosts/",
@@ -46,13 +38,6 @@ const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(newPostAction.fulfilled, (state, action) => {
-                if (action.payload.errors) {
-                    state.posts = []
-                } else {
-                    state.posts = action.payload
-                }
-            })
-            .addCase(getAllPosts.fulfilled, (state, action) => {
                 if (action.payload.errors) {
                     state.posts = []
                 } else {

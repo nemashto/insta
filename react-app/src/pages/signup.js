@@ -1,35 +1,32 @@
 import React, {useState, useEffect, useRef}  from "react"
-import { Link, Route, Navigate } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux'
-import { signUpAction } from '../state/authSlice'
+import { Link, useNavigate } from "react-router-dom"
+import { AuthService } from "../common/AuthService"
+import { useUserContext } from "../hooks/userContext"
 
 const SignUp = () => {
-    const componentMounted = useRef(true);
+    const navigate = useNavigate()
     const [fields, setFields] = useState({
         'username': '',
+        'fullname': '',
         'email': '',
         'password': '',
         'passwordRepeat': ''
     })
     const [errors, setErrors] = useState({})
     const isInvalid = fields['password'] === '' || fields['email'] === '';
+    const { userChange } = useUserContext()
 
     useEffect(() => {
         document.title = 'Sign Up - Instagram'
         setErrors({})
         setFields({
             'username': '',
+            'fullname': '',
             'email': '',
             'password': '',
             'passwordRepeat': ''
         })
-        return (
-            componentMounted.current = false
-        )
     },[])
-
-    const dispatch = useDispatch()
-    const user = useSelector(state => state.session.user)
 
     const handleField = (field, event) => {
         setFields((prevState) => ({
@@ -45,19 +42,17 @@ const SignUp = () => {
         const passwordRepeat = fields['passwordRepeat']
 
         if (password === passwordRepeat) {
-            const data = await dispatch(signUpAction(fields))
-            if (data) {
-                setErrors(data)
+            const response = await(new AuthService().register(fields))
+            if (response.errors) {
+                setErrors(response.errors)
             } else {
+                userChange(response)
                 setErrors({})
+                navigate('/')
             }
         } else {
             setErrors({"password":"Password must match Repeat Password"})
         }
-    }
-
-    if (user) {
-        <Route path="*" element={<Navigate replace to="/" />} />
     }
 
     return(
@@ -81,6 +76,14 @@ const SignUp = () => {
                             className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
                             onChange={handleField.bind(this, 'username')}
                             value={fields['username']}
+                            />
+                        <input
+                            aria-label="Enter your fullname"
+                            type="text"
+                            placeholder="Fullname"
+                            className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+                            onChange={handleField.bind(this, 'fullname')}
+                            value={fields['fullname']}
                             />
                         <input
                             aria-label="Enter your email address"

@@ -1,7 +1,7 @@
 import React, {useState, useEffect}  from "react"
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { loginAction } from "../state/authSlice"
+import { AuthService } from "../common/AuthService";
+import { useUserContext } from "../hooks/userContext";
 
 const Login = () => {
     const navigate = useNavigate()
@@ -11,6 +11,7 @@ const Login = () => {
         'password': '',
     })
     const [errors, setErrors] = useState({})
+    const { userChange } = useUserContext()
     const isInvalid = fields['password'] === '' || fields['email'] === '';
 
     useEffect(() => {
@@ -22,8 +23,6 @@ const Login = () => {
         })
     },[])
 
-    const dispatch = useDispatch()
-
     const handleField = (field, event) => {
         setFields((prevState) => ({
             ...prevState,
@@ -34,10 +33,11 @@ const Login = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
-        const response = await dispatch(loginAction(fields))
-        if (response.payload.errors) {
-            setErrors(response.payload.errors)
+        const response = await (new AuthService()).login(fields)
+        if (response.errors) {
+            setErrors(response.errors)
         } else {
+            userChange(response)
             setErrors({})
             navigate('/')
         }

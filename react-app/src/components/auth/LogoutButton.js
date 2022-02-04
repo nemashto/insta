@@ -1,14 +1,15 @@
 import React from "react"
-import { useDispatch } from 'react-redux'
 import { useNavigate } from "react-router-dom"
-import { logoutAction } from '../../state/authSlice'
+import { AuthService } from "../../common/AuthService"
+import { useUserContext } from "../../hooks/userContext"
 
 export const LogoutButton = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { userChange } = useUserContext()
 
     const handleOnClick = async() => {
-        await dispatch(logoutAction())
+        await (new AuthService()).logout()
+        userChange(null)
         navigate('/')
     }
 

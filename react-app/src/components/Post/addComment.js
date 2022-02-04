@@ -1,26 +1,22 @@
 import React, {useState} from "react"
-import { useSelector } from 'react-redux'
 import { CommentService } from "../../common/CommentService"
+import { useUserContext } from "../../hooks/userContext"
 
 export const AddComment = ({id, comments, setComments, commentInput}) => {
     const [comment, setComment] = useState('')
-    
-
-    const currentUser = useSelector(state => state.auth.user)
-    const username = currentUser.username
+    const { user } = useUserContext()
 
     const handleSubmitComment = async(event) => {
         event.preventDefault()
         const base = {
             'body': comment,
             'post_id': id,
-            'user_id': currentUser.id,
+            'user_id': user.id,
         }
 
-        const response = await(new CommentService()).create(base)
-        console.log(response)
+        await(new CommentService()).create(base)
         setComments([...comments, {
-             'userName': username, 
+             'userName': user.username, 
              'body': comment 
             }])
         setComment('')
