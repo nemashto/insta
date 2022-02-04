@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react"
 import Skeleton from 'react-loading-skeleton'
-import { useDispatch } from 'react-redux'
-
+import { ProfileService } from "../../common/ProfileService";
 import { DEFAULT_IMAGE_PATH } from "../../constants/paths";
-import { followProfileService, getFollowingService, isFollowingService } from "../../state/profileSlice";
 
 export const ProfileHeader = ({ user, current, postsCount }) => {
-  const dispatch = useDispatch()
   const [isFollowingProfile, setIsFollowingProfile] = useState(null);
   const [following, setFollowing] = useState([])
   const [followers, setFollowers] = useState()
@@ -16,30 +13,29 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
       setIsFollowingProfile(false)
     } else setIsFollowingProfile(true)
     
-    await dispatch(followProfileService(user.id))
+    await(new ProfileService().getFollow(user.id))
   }
 
   useEffect(() => {
     const isLoggedInUserFollowingProfile = async() => {
-      const isFollowing = await(dispatch(isFollowingService(user.id)))
-      setIsFollowingProfile(isFollowing.payload.isFollowing)
+      const response = await(new ProfileService().isGetFollowing(user.id))
+      setIsFollowingProfile(response.isFollowing)
     }
 
     const loadFollowing = async() => {
-      const loadFollowing = await(dispatch(getFollowingService(user.id)))
-      setFollowing(loadFollowing.payload.following)
-      setFollowers(loadFollowing.payload.followers)
-    }
-
-    if (!current) {
-      isLoggedInUserFollowingProfile()
+      const response = await(new ProfileService().getFollowing(user.id))
+      setFollowing(response.following)
+      setFollowers(response.followers)
     }
 
     loadFollowing()
 
-    
-  }, [dispatch, current, user.id])
+    if (!current) {
+      isLoggedInUserFollowingProfile()
+    }
+  }, [setIsFollowingProfile, setFollowing, setFollowers, current, user])
 
+console.log(isFollowingProfile)
   return(
       <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
           <div className="container flex justify-center items-center">
@@ -68,7 +64,7 @@ export const ProfileHeader = ({ user, current, postsCount }) => {
                   type="button"
                   onClick={handleFollow}
                 >
-                  {isFollowingProfile ? 'Unfollow' : 'Follow'}
+                  {isFollowingProfile && isFollowingProfile ? 'Unfollow' : 'Follow'}
                 </button>
                 )
                 }

@@ -1,16 +1,14 @@
 import React, {useState, useEffect}  from "react"
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
 import { Header } from "../components/header"
 import { UserProfile } from "../components/Profile/userProfile"
-import { getProfileService } from "../state/profileSlice";
-import { getUserPostsService } from "../state/postSlice";
 import { ProfilePosts } from "../components/Profile/profilePosts";
 import { useUserContext } from "../hooks/userContext";
+import { ProfileService } from "../common/ProfileService";
+import { PostService } from "../common/PostService";
 
 
 const Profile = () => {
-    const dispatch = useDispatch()
     const { username } = useParams();
     const { user } = useUserContext()
     const [profileUser, setProfileUser] = useState(null)
@@ -19,16 +17,19 @@ const Profile = () => {
     
     useEffect(() => {
         const loadUser = async() => {
-            const loadedUser = await(dispatch(getProfileService(username)))
+            const response = await(new ProfileService().get(username))
             setCurrent(false)
-            const data = await loadedUser.payload
-            setProfileUser(data)
-            loadPosts(data.id)
+            setProfileUser(response)
+            if (response != null) loadPosts(response.id)
         }
 
         const loadPosts = async(id) => {
-            const loadedPosts = await(dispatch(getUserPostsService(id)))
-            setPosts(loadedPosts.payload)
+            const response = await(new PostService().getUserPosts(id))
+            if (response.error) {
+                console.log(response.error)
+            } else {
+                setPosts(response)
+            }
         }
 
         if (user && username === user.username) {
@@ -40,16 +41,17 @@ const Profile = () => {
         }
 
 
-    }, [setProfileUser, username, user, dispatch])
-
+    }, [username, user, setProfileUser, setCurrent])
 
     return profileUser?.username ? (
         <div className="bg-gray-background">
             <Header />
-            <div className="mx-auto max-w-screen-lg">
-                <UserProfile user={profileUser} current={current} postsCount={posts.length}/>
-                <ProfilePosts posts={posts} />
-            </div>
+            {profileUser && 
+                <div className="mx-auto max-w-screen-lg">
+                    <UserProfile user={profileUser} current={current} postsCount={posts ? posts.length: 0}/>
+                    <ProfilePosts posts={posts} />
+                </div>
+            }
         </div>
     ): null
 }

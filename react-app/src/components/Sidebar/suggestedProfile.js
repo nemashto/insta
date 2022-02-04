@@ -1,16 +1,14 @@
 import React, {useState} from "react"
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { followProfileService } from "../../state/profileSlice"
+import { ProfileService } from "../../common/ProfileService"
 
 
 export const SuggestedProfile = ({id, username, profileImage, isFollower}) => {
-    const dispatch = useDispatch()
     const [followed, setFollowed] = useState(false)
 
     async function handleFollowUser() {
         setFollowed(true)
-        await dispatch(followProfileService(id))
+        await (new ProfileService().getFollow(id))
     }
 
     return !followed ? (
