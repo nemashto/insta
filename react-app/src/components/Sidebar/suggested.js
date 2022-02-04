@@ -1,19 +1,23 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Skeleton from 'react-loading-skeleton';
-import { useDispatch, useSelector } from 'react-redux'
-import { getAllSuggestedProfile } from "../../state/profileSlice";
+import { ProfileService } from "../../common/ProfileService";
 import { SuggestedProfile } from "./suggestedProfile";
 
 
 export const Suggested = () => {
-    const dispatch = useDispatch()
-    const profiles = useSelector(state => state.profile.profiles)
+    const [profiles, setProfiles] = useState([])
     
     useEffect(() => {
-        (async()=>{
-            await(dispatch(getAllSuggestedProfile()))
-        })()
-    }, [dispatch])
+        const getSuggestedUsers = async() => {
+            const response = await(new ProfileService().getAll())
+            if (response.errors || response.error) {
+                console.log(response)
+            } else {
+                setProfiles(response.users)
+            }
+        }
+        getSuggestedUsers()
+    }, [setProfiles])
 
     return !profiles ? (
         <Skeleton count={1} height={150} className="mt-5" />

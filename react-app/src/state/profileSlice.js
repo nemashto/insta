@@ -15,15 +15,6 @@ export const getProfileService = createAsyncThunk(
     }
 )
 
-export const getAllSuggestedProfile = createAsyncThunk(
-    "suggested/",
-    async() => {
-        const response = await(new ProfileService()).getAll()
-        const data = await response.json()
-        return data
-    }
-)
-
 export const getFollowingService = createAsyncThunk(
     "following/",
     async(id) => {
@@ -57,13 +48,6 @@ const profileSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getAllSuggestedProfile.fulfilled, (state, action) => {
-                if (action.payload.errors) {
-                    state.profiles = []
-                } else {
-                    state.profiles = action.payload.users
-                }
-            })
             .addCase(followProfileService.fulfilled, (state, action) => {
                 if (!action.payload.error) {
                     state.user = action.payload
