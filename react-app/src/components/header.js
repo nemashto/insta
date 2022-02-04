@@ -1,13 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { useSelector } from 'react-redux'
 import { LogoutButton } from "./auth/LogoutButton";
 import { DEFAULT_IMAGE_PATH } from '../constants/paths'
+import { useUserContext } from "../hooks/userContext";
 
 
 export const Header = () => {
-    const user = useSelector(state => state.auth.user)
-
+    const { user } = useUserContext()
+    console.log(user)
     return(
         <header className="h-16 bg-white border-b border-gray-primary mb-8">
             <div className="container mx-auto max-w-screen-lg h-full">

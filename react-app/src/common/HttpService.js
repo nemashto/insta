@@ -16,24 +16,32 @@ export class HttpService {
     }
 
     async post(url, body, queryParams = null) {
-        const response = await fetch((ROOT_URL + this.getUrl(url)), {
-            method: "POST",
-            credentials: "include",
-            headers: this.headers,
-            body: body
-        }).catch((err) => console.log(err))
-        
-        return response
+        try {
+            const response = await fetch((ROOT_URL + this.getUrl(url)), {
+                method: "POST",
+                credentials: "include",
+                headers: this.headers,
+                body: body
+            })     
+            const jsonResponse = await response.json()
+            return jsonResponse
+        } catch(error) {
+            console.log(error)
+        }
     }
 
     async get(url, queryParams = null) {
-        const response = await fetch((ROOT_URL + this.getUrl(url)), {
-            method: "GET",
-            credentials: "include",
-            headers: this.headers,
-        }).catch((err) => console.log(err))
-        
-        return response
-        
+        try {
+            const response = await fetch((ROOT_URL + this.getUrl(url)), {
+                method: "GET",
+                credentials: "include",
+                headers: this.headers,
+            })
+            const jsonResponse = await response.json()
+            return jsonResponse
+        } catch (error) {
+            console.log(error)
+            return null
+        }
     }
 }

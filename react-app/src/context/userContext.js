@@ -10,15 +10,14 @@ const UserContextProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loaded, setLoaded] = useState(true)
 
-    const logout = useCallback((data) => {
+    const userChange = useCallback((data) => {
             setUser(data)
     }, [])
 
     useEffect(() => {
         const authService = async () => {
             const response = await (new AuthService()).authenticate()
-            const data = await response.json()
-            return data
+            return response
           }
         const response = authService()
         response.then((res) => {
@@ -29,10 +28,10 @@ const UserContextProvider = ({children}) => {
 
     const contextValue = useMemo(() => ({
         user,
-        logout,
+        userChange,
         loaded,
 
-    }), [user, logout, loaded])
+    }), [user, userChange, loaded])
 
     return (
         <UserContext.Provider value={contextValue}>
