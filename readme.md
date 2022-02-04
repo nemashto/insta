@@ -11,10 +11,6 @@ I've been inspired in https://youtu.be/AKeaaa8yAAk and https://github.com/Andrew
 * Tailwind CSS
 * JavaScript
 
-**State Management:**
-* Redux
-* Redux-Toolkit
-
 **Back-End:**
 * Flask
 * Postgresql

@@ -8,10 +8,6 @@ export class AuthService extends BaseService {
 
     async authenticate() {
         let response = await this.http.get('')
-        if ( response.errors) {
-            console.log(response)
-            return null      
-        }
         return response
         
     }
@@ -25,9 +21,6 @@ export class AuthService extends BaseService {
     async login(data) {
         const body = JSON.stringify(data)
         let response = await this.http.post("login", body)
-        if ( response.errors) {
-            console.log(response)  
-        }
         return response
     }
 

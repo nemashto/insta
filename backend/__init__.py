@@ -79,3 +79,4 @@ def register_blueprint(app):
     app.register_blueprint(user_routes, url_prefix='/api/users')
     app.register_blueprint(post_routes, url_prefix='/api/posts')
     app.register_blueprint(comment_routes, url_prefix='/api/comments')
+
