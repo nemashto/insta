@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import { Header } from "../components/header";
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { newPostAction } from "../state/postSlice";
+import { PostService } from "../common/PostService";
 
 
 
 const NewPost = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     const [fields, setFields] = useState({
         'caption': '',
@@ -27,8 +25,8 @@ const NewPost = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
 
-        const response = await dispatch(newPostAction(fields))
-        if (response.payload.errors) {
+        const response = await (new PostService().create(fields))
+        if (response.errors) {
             setErrors(response.payload.errors)
         } else {
             setErrors({})
