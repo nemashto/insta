@@ -58,6 +58,8 @@ def password_check(form, field):
 class SignUpForm(FlaskForm):
     username = StringField('username', validators=[
                         DataRequired(), username_exists])
+    fullname = StringField('fullname', validators=[
+                        DataRequired()])
     email = StringField('email', validators=[
                         DataRequired(), user_exists, email_check])
     password = StringField('password', validators=[
